@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meriem &mdash; Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #c7c9b4;
+    --bg-soft: #b2b59c;
+    --ink: #2c2d28;
+    --ink-dim: #4f5147;
+    --ink-faint: #74766a;
+    --accent: #3b3c36;
+    --line: rgba(44, 45, 40, 0.2);
+    --art-color: #1d1e1a;
+  }
+
+  html.dark {
+    --bg: #2a2b26;
+    --bg-soft: #3b3c36;
+    --ink: #c3c5af;
+    --ink-dim: #9a9c89;
+    --ink-faint: #6c6e61;
+    --accent: #b2b59c;
+    --line: rgba(195, 197, 175, 0.16);
+    --art-color: #dfe1cf;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  html.dark body::before {
+    mix-blend-mode: overlay;
+    opacity: 0.06;
+  }
+
+  
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 4vw;
+    max-width: 1600px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: var(--bg);
+    transition: background 0.3s ease;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem;
+    transition: color 0.2s ease;
+  }
+
+  .icon-btn:hover { color: var(--ink); }
+
+  .lang-toggle {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--line);
+    padding: 0.25rem 0.55rem;
+    border-radius: 3px;
+  }
+
+  .nav-center {
+    position: relative;
+    display: flex;
+    gap: 0.3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+  }
+
+  
+  .nav-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--ink);
+    transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1), width 0.35s cubic-bezier(0.65, 0, 0.35, 1), background 0.3s ease;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .nav-center.pill-ready .nav-pill {
+    opacity: 1;
+  }
+
+  .nav-pill {
+    opacity: 0;
+  }
+
+  .nav-center a {
+    position: relative;
+    z-index: 1;
+    color: var(--ink-dim);
+    text-decoration: none;
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    transition: color 0.2s ease;
+    cursor: pointer;
+  }
+
+  .nav-center a:hover {
+    color: var(--ink);
+  }
+
+  .nav-center a.active {
+    color: var(--bg);
+  }
+
+  .nav-right {
+    display: flex;
+    gap: 1.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  .social-link {
+    color: var(--ink-dim);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+  }
+
+  .social-link:hover { color: var(--accent); }
+
+  .social-link .glyph {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-dim);
+  }
+
+  .social-link .glyph svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+  }
+
+  .social-link:hover .glyph { color: var(--accent); }
+
+  
+  section {
+    position: relative;
+    z-index: 2;
+    scroll-margin-top: 90px;
+  }
+
+  
+  #home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 4rem 80px 6rem 6vw;
+    min-height: calc(100vh - 90px);
+  }
+
+  .left {
+    flex: 0 0 auto;
+    max-width: 640px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h1 .line2 {
+    white-space: nowrap;
+  }
+
+  h1 span.highlight {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .tagline {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-dim);
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--ink-faint);
+    padding: 0.85rem 1.6rem;
+    transition: all 0.25s ease;
+  }
+
+  .cta:hover {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  .cta::after {
+    content: "\2192";
+    transition: transform 0.25s ease;
+  }
+
+  .cta:hover::after {
+    transform: translateX(4px);
+  }
+
+  .right {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .ascii-stage {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  pre.ascii-body {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.92px;
+    line-height: 1.92px;
+    letter-spacing: 0.05px;
+    color: var(--art-color);
+    white-space: pre;
+    margin: 0;
+    user-select: none;
+    width: 100%;
+    text-align: right;
+    transition: color 0.3s ease;
+  }
+
+  
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 6vw 6rem;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-header .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header .eyebrow::before {
+    content: "// ";
+    color: var(--ink-faint);
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 300;
+    color: var(--ink);
+  }
+
+  
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .project-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--ink-faint);
+  }
+
+  .project-thumb {
+    flex: 0 0 auto;
+    width: 220px;
+    height: 150px;
+    border-radius: 18px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .project-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-thumb.placeholder {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .project-info {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .project-name {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.02em;
+  }
+
+  .project-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    font-weight: 300;
+    max-width: 60ch;
+  }
+
+  .add-project-note {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  
+  .illustration-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .illustration-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .illustration-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .illustration-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .illustration-image.placeholder {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  
+  .illustration-image:has(img) {
+    padding: 0;
+  }
+
+  .illustration-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+
+  .illustration-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    font-weight: 300;
+  }
+
+  .add-illustration-note {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .contact-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .contact-intro {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    font-weight: 300;
+     
+
+  
+  margin-bottom: 2em;
+  }
+
+
+  .contact-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--ink-faint);
+  }
+
+  .contact-card .glyph {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .contact-card .glyph svg {
+    width: 26px;
+    height: 26px;
+    display: block;
+  }
+
+  .contact-card .contact-label {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .contact-card .contact-handle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    word-break: break-all;
+  }
+
+  @media (max-width: 980px) {
+    nav { justify-content: center; text-align: center; }
+    .nav-left, .nav-right { order: 2; }
+    .nav-center { order: 1; flex-basis: 100%; justify-content: center; }
+
+    #home {
+      flex-direction: column-reverse;
+      text-align: center;
+      padding: 2rem 6vw 4rem;
+      gap: 2.5rem;
+      min-height: auto;
+    }
+    .left { max-width: 100%; }
+    pre.ascii-body { font-size: 1.05px; line-height: 1.05px; }
+         
+    .project-card {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+      gap: 1.25rem;
+    }
+    .project-thumb {
+      width: 100%;
+      height: 180px;
+    }
+    .project-description { max-width: 100%; }
+
+    .illustration-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  
+
+
+  
+  .illustration-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 0.55rem;
+  }
+
+  
+  .art-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+    color: var(--ink-faint);
+    transition: color 0.2s ease;
+    line-height: 1;
+  }
+
+  
+  .like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    
+  }
+
+  .like-btn:hover {
+    color: var(--ink-dim);
+  }
+
+  .like-btn .heart-icon {
+    display: inline-block;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 1;
+    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.18s ease;
+    will-change: transform;
+  }
+
+  
+  .like-btn.liked {
+    color: #8a6a5a;
+  }
+
+  html.dark .like-btn.liked {
+    color: #b08878;
+  }
+
+  .like-btn.liked .heart-icon {
+    transform: scale(1.18);
+  }
+
+  
+  @keyframes heart-pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.45); }
+    70%  { transform: scale(0.92); }
+    100% { transform: scale(1.18); }
+  }
+
+  .like-btn.pop .heart-icon {
+    animation: heart-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  
+  .views-chip {
+    user-select: none;
+  }
+
+  
+
+  
+  @media (max-width: 767px) {
+    .ascii-stage {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    pre.ascii-body {
+      
+      font-size: 1.6px;
+      line-height: 1.6px;
+      text-align: left;
+      min-width: max-content;
+    }
+
+    
+    .section-inner {
+      padding: 3.5rem 5vw 4.5rem;
+    }
+
+    
+    .nav-center {
+      gap: 0.15rem;
+      font-size: 12px;
+    }
+
+    .nav-center a {
+      padding: 0.45rem 0.85rem;
+    }
+
+    
+    .project-thumb {
+      height: 160px;
+    }
+
+    
+    .contact-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    
+    #home {
+      padding: 1.5rem 5vw 3rem;
+    }
+  }
+
+  @media (max-width: 414px) {
+    pre.ascii-body {
+      font-size: 1.3px;
+      line-height: 1.3px;
+    }
+
+    .nav-center a {
+      padding: 0.4rem 0.7rem;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+    }
+
+    .illustration-meta {
+      gap: 1rem;
+    }
+
+    .art-chip {
+      font-size: 10.5px;
+    }
+  }
+
+  @media (max-width: 375px) {
+    pre.ascii-body {
+      font-size: 1.1px;
+      line-height: 1.1px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    pre.ascii-body {
+      font-size: 0.95px;
+      line-height: 0.95px;
+    }
+
+    .nav-center a {
+      padding: 0.35rem 0.55rem;
+      font-size: 11px;
+    }
+  }
+
+  
+  @media (min-width: 768px) and (max-width: 980px) {
+    .illustration-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark and light mode" title="Toggle dark / light mode">
+      <span id="theme-icon">&#9728;</span>
+    </button>
+    <button class="icon-btn lang-toggle" id="lang-toggle" aria-label="Toggle language">EN</button>
+  </div>
+
+  <div class="nav-center" id="nav-center">
+    <div class="nav-pill" id="nav-pill"></div>
+    <a href="#home" data-section="home" class="active">Home</a>
+    <a href="#projects" data-section="projects">Projects</a>
+    <a href="#illustrations" data-section="illustrations">Illustrations</a>
+    <a href="#contact" data-section="contact">Contact</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="https://github.com/zebirimeriem" target="_blank" class="social-link"><span class="glyph"><svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><rect x="30" y="0" width="10" height="10"/><rect x="40" y="0" width="10" height="10"/><rect x="50" y="0" width="10" height="10"/><rect x="60" y="0" width="10" height="10"/><rect x="70" y="0" width="10" height="10"/><rect x="80" y="0" width="10" height="10"/><rect x="90" y="0" width="10" height="10"/><rect x="20" y="10" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="40" y="10" width="10" height="10"/><rect x="50" y="10" width="10" height="10"/><rect x="60" y="10" width="10" height="10"/><rect x="70" y="10" width="10" height="10"/><rect x="80" y="10" width="10" height="10"/><rect x="90" y="10" width="10" height="10"/><rect x="100" y="10" width="10" height="10"/><rect x="10" y="20" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="30" y="20" width="10" height="10"/><rect x="50" y="20" width="10" height="10"/><rect x="60" y="20" width="10" height="10"/><rect x="70" y="20" width="10" height="10"/><rect x="90" y="20" width="10" height="10"/><rect x="100" y="20" width="10" height="10"/><rect x="110" y="20" width="10" height="10"/><rect x="0" y="30" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="90" y="30" width="10" height="10"/><rect x="100" y="30" width="10" height="10"/><rect x="110" y="30" width="10" height="10"/><rect x="120" y="30" width="10" height="10"/><rect x="0" y="40" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="20" y="40" width="10" height="10"/><rect x="100" y="40" width="10" height="10"/><rect x="110" y="40" width="10" height="10"/><rect x="120" y="40" width="10" height="10"/><rect x="0" y="50" width="10" height="10"/><rect x="10" y="50" width="10" height="10"/><rect x="20" y="50" width="10" height="10"/><rect x="100" y="50" width="10" height="10"/><rect x="110" y="50" width="10" height="10"/><rect x="120" y="50" width="10" height="10"/><rect x="0" y="60" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect x="20" y="60" width="10" height="10"/><rect x="100" y="60" width="10" height="10"/><rect x="110" y="60" width="10" height="10"/><rect x="120" y="60" width="10" height="10"/><rect x="0" y="70" width="10" height="10"/><rect x="10" y="70" width="10" height="10"/><rect x="20" y="70" width="10" height="10"/><rect x="100" y="70" width="10" height="10"/><rect x="110" y="70" width="10" height="10"/><rect x="120" y="70" width="10" height="10"/><rect x="0" y="80" width="10" height="10"/><rect x="10" y="80" width="10" height="10"/><rect x="20" y="80" width="10" height="10"/><rect x="30" y="80" width="10" height="10"/><rect x="90" y="80" width="10" height="10"/><rect x="100" y="80" width="10" height="10"/><rect x="110" y="80" width="10" height="10"/><rect x="120" y="80" width="10" height="10"/><rect x="0" y="90" width="10" height="10"/><rect x="10" y="90" width="10" height="10"/><rect x="30" y="90" width="10" height="10"/><rect x="40" y="90" width="10" height="10"/><rect x="80" y="90" width="10" height="10"/><rect x="90" y="90" width="10" height="10"/><rect x="100" y="90" width="10" height="10"/><rect x="110" y="90" width="10" height="10"/><rect x="120" y="90" width="10" height="10"/><rect x="10" y="100" width="10" height="10"/><rect x="20" y="100" width="10" height="10"/><rect x="80" y="100" width="10" height="10"/><rect x="90" y="100" width="10" height="10"/><rect x="100" y="100" width="10" height="10"/><rect x="110" y="100" width="10" height="10"/><rect x="20" y="110" width="10" height="10"/><rect x="30" y="110" width="10" height="10"/><rect x="40" y="110" width="10" height="10"/><rect x="80" y="110" width="10" height="10"/><rect x="90" y="110" width="10" height="10"/><rect x="100" y="110" width="10" height="10"/><rect x="30" y="120" width="10" height="10"/><rect x="40" y="120" width="10" height="10"/><rect x="80" y="120" width="10" height="10"/><rect x="90" y="120" width="10" height="10"/></svg></span> Github</a>
+    <a href="https://www.linkedin.com/in/meriem-zebiri/" target="_blank" class="social-link"><span class="glyph"><svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><rect x="40" y="0" width="10" height="10"/><rect x="50" y="0" width="10" height="10"/><rect x="60" y="0" width="10" height="10"/><rect x="70" y="0" width="10" height="10"/><rect x="80" y="0" width="10" height="10"/><rect x="90" y="0" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="40" y="10" width="10" height="10"/><rect x="50" y="10" width="10" height="10"/><rect x="60" y="10" width="10" height="10"/><rect x="70" y="10" width="10" height="10"/><rect x="80" y="10" width="10" height="10"/><rect x="90" y="10" width="10" height="10"/><rect x="100" y="10" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="30" y="20" width="10" height="10"/><rect x="40" y="20" width="10" height="10"/><rect x="50" y="20" width="10" height="10"/><rect x="60" y="20" width="10" height="10"/><rect x="70" y="20" width="10" height="10"/><rect x="80" y="20" width="10" height="10"/><rect x="90" y="20" width="10" height="10"/><rect x="100" y="20" width="10" height="10"/><rect x="110" y="20" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="50" y="30" width="10" height="10"/><rect x="60" y="30" width="10" height="10"/><rect x="70" y="30" width="10" height="10"/><rect x="80" y="30" width="10" height="10"/><rect x="90" y="30" width="10" height="10"/><rect x="100" y="30" width="10" height="10"/><rect x="110" y="30" width="10" height="10"/><rect x="120" y="30" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="20" y="40" width="10" height="10"/><rect x="30" y="40" width="10" height="10"/><rect x="40" y="40" width="10" height="10"/><rect x="50" y="40" width="10" height="10"/><rect x="60" y="40" width="10" height="10"/><rect x="70" y="40" width="10" height="10"/><rect x="80" y="40" width="10" height="10"/><rect x="90" y="40" width="10" height="10"/><rect x="100" y="40" width="10" height="10"/><rect x="110" y="40" width="10" height="10"/><rect x="120" y="40" width="10" height="10"/><rect x="10" y="50" width="10" height="10"/><rect x="20" y="50" width="10" height="10"/><rect x="30" y="50" width="10" height="10"/><rect x="50" y="50" width="10" height="10"/><rect x="70" y="50" width="10" height="10"/><rect x="90" y="50" width="10" height="10"/><rect x="100" y="50" width="10" height="10"/><rect x="110" y="50" width="10" height="10"/><rect x="120" y="50" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect x="20" y="60" width="10" height="10"/><rect x="30" y="60" width="10" height="10"/><rect x="50" y="60" width="10" height="10"/><rect x="80" y="60" width="10" height="10"/><rect x="100" y="60" width="10" height="10"/><rect x="110" y="60" width="10" height="10"/><rect x="120" y="60" width="10" height="10"/><rect x="10" y="70" width="10" height="10"/><rect x="20" y="70" width="10" height="10"/><rect x="30" y="70" width="10" height="10"/><rect x="50" y="70" width="10" height="10"/><rect x="80" y="70" width="10" height="10"/><rect x="100" y="70" width="10" height="10"/><rect x="110" y="70" width="10" height="10"/><rect x="120" y="70" width="10" height="10"/><rect x="10" y="80" width="10" height="10"/><rect x="20" y="80" width="10" height="10"/><rect x="30" y="80" width="10" height="10"/><rect x="50" y="80" width="10" height="10"/><rect x="70" y="80" width="10" height="10"/><rect x="80" y="80" width="10" height="10"/><rect x="100" y="80" width="10" height="10"/><rect x="110" y="80" width="10" height="10"/><rect x="120" y="80" width="10" height="10"/><rect x="10" y="90" width="10" height="10"/><rect x="20" y="90" width="10" height="10"/><rect x="30" y="90" width="10" height="10"/><rect x="50" y="90" width="10" height="10"/><rect x="70" y="90" width="10" height="10"/><rect x="80" y="90" width="10" height="10"/><rect x="100" y="90" width="10" height="10"/><rect x="110" y="90" width="10" height="10"/><rect x="120" y="90" width="10" height="10"/><rect x="20" y="100" width="10" height="10"/><rect x="30" y="100" width="10" height="10"/><rect x="40" y="100" width="10" height="10"/><rect x="50" y="100" width="10" height="10"/><rect x="60" y="100" width="10" height="10"/><rect x="70" y="100" width="10" height="10"/><rect x="80" y="100" width="10" height="10"/><rect x="90" y="100" width="10" height="10"/><rect x="100" y="100" width="10" height="10"/><rect x="110" y="100" width="10" height="10"/><rect x="30" y="110" width="10" height="10"/><rect x="40" y="110" width="10" height="10"/><rect x="50" y="110" width="10" height="10"/><rect x="60" y="110" width="10" height="10"/><rect x="70" y="110" width="10" height="10"/><rect x="80" y="110" width="10" height="10"/><rect x="90" y="110" width="10" height="10"/><rect x="100" y="110" width="10" height="10"/><rect x="40" y="120" width="10" height="10"/><rect x="50" y="120" width="10" height="10"/><rect x="60" y="120" width="10" height="10"/><rect x="70" y="120" width="10" height="10"/><rect x="80" y="120" width="10" height="10"/><rect x="90" y="120" width="10" height="10"/></svg></span> LinkedIn</a>
+  </div>
+</nav>
+
+<section id="home">
+  <div class="left">
+    <h1>Hi, I'm <span class="highlight">Meriem</span>.<br><span class="line2">I SCRIPT AND I DRAW.</span></h1>
+    <p class="tagline">Exploring the space between art and technology.</p>
+    <a href="resume.jpg" class="cta">View my resume</a>
+  </div>
+
+  <div class="right">
+    <div class="ascii-stage">
+      <pre class="ascii-body">                                                                                                                                                                                 .!!,.,:              :!rl!!:..                                  n@@@nu,   .l@@@@@@@i!v@8,..  ... .     .                                                                                                                                                                                       ...                                                                                      
+                                                                                                                                                                           ..,:!!;.,:;!l:                                                       xJ@@@@@v,!v@@@@@@@@@@@@@@c:...  ...      .                                                                                                                                                                                                                                                                               
+                                                                                                                                                                      .,:;;:!!:,        .i,                                                    u@@@@@@@@J@@@@@@@@@@@@@@8@@@##cxxu;..                                                                                                                                                                                                                                                                                     
+                                                                                                                                                    ,:           .:lrri!;;,..             ..  .,..                                           !%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@8@@8@r...                                                                                                                                                                                                                                                                                   
+                             ...,,:::.                 .                                                                                            c#ci:.    .:xXvii!;,.                     ..                                            Y@@@@@@8#@@@@@@@@@@@@@@@@@@%@@@@@@@@@@Z.. ...                                                                                                                                                                                                                                                                                
+                         ....      .,..::;::iiixrllxnnxnr,                                                                                          :,ivJv!:,.;;:!;:,.                                                                  iJc8@@@@@@@#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,vx ..       ..                                                                                                                                                                                                                                                                       
+                      .                 ,lJ8#XJYYZ@n:.  ;vui.                                                                                ..      ,     .   .,:.                                                                   ;n!%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#@v...  .,:,.                                                                                                                                                                                                                                                                        
+                             ,:;   .;ii!:,ir;::::;rYZJl:, .;nr, .c!                                                                         l.                .,                     .  ..;!       ir                               ;JY@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Y8@@@@@@@@@@@@@@@%Zuu8@@J,                                                                                                                                                                                                                                                                        
+                     !i: :nZ%@#%vuxi:.   ..:ruX%%%8#%8@8ZuixY@Znv@@x;.  .:.                                                                 c!                                     ,Y8Z#@@@@n;.  .,Y@n;                        ,.  !@J%@@@@@@@@@@@@@@@#%X%@@@@@@@@@@XnxJ@@@@@@@@@@@@@@@@@@xlnv@@!.                                                                                                                                                                                                                                                                       
+                    !i;8@@%vlvY@Y:      inxvvvuxllc8%Yvnlv8@@@@@@@@@@@Xxv@@Jn!.                                                            :n                                    ,8@@@@@@@@@@@X8X@@@@@@@l     ..           .!rr@Z.r@@@@@@@@@@@@@@@@8i  !uZ@@@@@@@@8x,x@@@8X@@@@@@@@@@@@@@@@@ru@@x                                                                                                                                                                            ...     ....                                                                                
+                   !  x@@r!J@@@@c!lucn          ,c%88%@@Xni,,,,lcZX@@@XlxJ@@8v.                                                      ;;    i:                       .::xn;;:,    !@@@@@@@@@@@@@@@@@@@@@@@@ci!u@X.       .iJc%@8@@@@@@@@@@@@@@@@@@#r,       :nJ;xni !cvxx%@@@@@@@#@@@@@#@@@@civ@@@:                                                                                                                                                                     . ............,,..                                                                                
+                 .: ,c@@@@@@@@@@@@@i         .::!i;irxxi.  .::!lirJ@@%#l  ..                                                         :;!! ,.                      ;;;,r@@@@@@XcX@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@n.   .;iuXZ@%#@@@@@@@@@@@@@@vZ@n..xi         iZ,  ,   :x .i%@@@@@@@ZZ@#8u@@@;i#@@@@:                                                                                                                                                                    ....,:,.,,,,,,..                                                                                  
+                 , .u@@@@@@@@@@@ci:,!rYvcvv8%@@8cXZ@8crlliiYZnl;,.:ivxn8u                                                           ;:  .,                      ,i!!rJ@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@v;;,!vZ@@@@@@@@@@@@@@@@@@@@J8@J,  .v:         Z;  . , i; ,.X@Zn@@@i  !J! i@@@v8@@#@Zri.                                                                                                                                                     ..  .     .,;:,..:::;:.                                                                                       
+                .,;@@@@%Z%@@@@XYunxnvY@Yln@@@@#8XJl!:,:,,...;nYZurl;.   li                                                          ..                          u:u@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@u;Yi:   ,c:        !J  , vv  rl 8@JJ@vc   :i ,,r@8@JY@XYu:vY                                                                                                                                                  ,;;ll.   ...........,;:.                                                                                         
+                uJv@@vvccXYJn!::,:!i;:%uJ@@ZJl,..   ,iucYvnlluX@@@@@@@u. r!:.                                                       :                         !%Zu@@@@@@@@@@@@@@@@@@@@#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#lxZx,   !v,        J. !r#   ul X@@@8Jl    .,,,cxlnJc@@YX ,Y.                                                                                                                                 ... ,:,.. .,:;ll!.  ...:vc,.   ... ..,.                                                          .:.                             
+             ,lcv. X@n,.,;    ,rixv:;u@%urxnZZ%#Zcnl!;!irii!rZ@@@@@%@@@@X,lun ..                                                   .:                .      .v@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%8@@@@@@@@@@@@@@@@@@@@@@@@X8YJZu@#vY@J.   xr,       :n i;:   ur #@@Z:x!.    ,. !v!lxZ@@@@n.c.                                                                                             .               ,:;!vc, .  .         . .ul;ixcJXJi:!,..,!xvXu!.,;l:,,.........                                                      !xl.     .  .           .,:.     
+            .;,;,  J@  ,:. .:iZ@r!rxJ8@rrv#@%YcvJY@@Zv#%Jx:,!xv@Xuxx@@@@@#v,8rlZ.                                                 .:                 @X;;,:c@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@8%@@@@@@@@%JYY@@@@@@@@@@@@@@@@@@@@@@@@@@@ZriYnJ@@@Z@Y;   n:,.      xi: ..  vi %@@l ...      .!r!!;;@@@@%!x                                                                                             .;          .::,,:;inx!,                 :i!:,,.,!v%%%%@@@8Jvn%@@@r.......,......           :,                                   .!cZYr:::.           .!nxuXccur.     
+               .:  Z@.i:  xu!l#%#JnriX@@x!!irxxcZ@@i   ;uXXniln@@ucYYcl;:Y@vx@#@,                                                :,.               !#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Z8@@#@@@@@@@@@@@@@@@@cnxxX@@@@@@@@@@@@@@@@@@@@x lvcln@@8Xr:. :!::,  .  .ni  . :lvi@@%! .          l!l  x@@@@%c:. ,,                                                                                                :ul..,..,xn!.  .           ..... .  .:!xcZ@@@@##8cvvxv@@@@8%@J:...    .      .     ,%Yunnxrl!il!!l!ilrnvXcli!!!;;,:;;inxY@@Y!,,..:.     ,,;iuYZcvZ@@8l,. ,:;! 
+                !  Y@XJ!,:i!  @X@@vrn@@@@@@@@@@8@c             .J@xvYr    c@@@@@:                                               :,,               i@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#8@@@@@@@Zv%X;      lJ@@@@@@@@@@@@@@@%@@r  :un. x@@%cl,,i,.;!,  . ;v  .:.l@%Z#Y; .           !v;  v@@@8, .n@r                                                                       .                        ,l: .,,,il,    !. ..,;!iirllii!ixvY%@@@@@@@@#YXXXulx8@#v@@@cxJ:.!.  .:.     ;v  xviinilnxrli!;;:;;!xY#ZJJJvxvYZ%@@@#XXX@@@@@@8%@%%ZXJcYXYZ@@@8r!ix!. :rcZ8Jcci
+            ,    i c@@r   .x l@ri8v@@@@@@@@@YXJv#nnnr!!;.        i8Yxci ,i.Z@@@@;                                             .:                 :@@@@@@8@@@@@@@@@@@@@@@@@@@@@@@@@@@@!,..  ;Z8ZY@@@@@@@nir.         :J@@@@@@@@8l,i@@@@Z.  .uu;  u@@@c!!;...::  ;.xr :; lnJ8Zu, ;      ,     .c! :@@@@::JcX:                                                                     ....                       ....,;i;lY%@ZJX%cvXZ8XXJJZ88%#@@@@@@@@@@@@@@@Jlnu,.!Zniv%@@: xJX@c::x.      xr l@J;vYxZ@8YXYcul;,..:nl.     ,l!;;,.     inxrnnrnnrlllllluX@%#ZYXvxrxruurruZ8YJ
+            il   .,v@Y     ;.v@c8Jr@@!@r;!iunY@@@Jnli!!ii:.       .Z@cZ: lrJ@@@@n                                            !,                 .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@vxi      , Y@@@@@@@@c:.             .!Y@l.lxi   ;@@@%n    ll!. .uYZ#vxi:  .; .!iJ:.! rrv%un, ,       .     ,u: u@@@ZY,,X                                                                      ...,..                     .,...,,, ;xY8xrx;::::!ruvcJZ8@@XcvncuxunX%8u!;i,   .l!!iv%@@Zcn%@@#v;.     ,rr.Z@; !#@@@c%@@@YvvuucYJcY88XZZX888XXXcvvxrluJcYZZ8ZZXYX8@@@@@@@%YZ%%%@ZurnvcYi  
+            .l;   ;@@l     .:8@n%@uJ@nJ      vv!                    X8!x.ri@@@@@!                                           ;.                 ,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Y#        :  Y@@@@@@@v.                  :i;!.     n@@@u:    ;:!!  ,.lXZ%@u,  :,!inui: rvc@rY, .              ic  8@@Z. !r                                                                         .,,.                     .       :xrr    .::!:...;xvvnl!lv%XrnYXvi,:x%Z!   :nr;!:, .YcJ%%@@v:.    lnlx!@@!!YZu!XZY..ul.          .:;:,::!rucxriiilvYXJXYZZ@@@@Z@@u:::;lnvvvJnni:!vnxJX
+             :.: ,i@@u     .,%8n8@:v@#;      .                      .: vXY.8@@@@                                          i;                   :Z@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@iJx       ., :@@#@@@@%n                             :v@@vi,    ;::!.   ,!JJZYvl..r::cJ! rZx@ic: .              xu. cY@@: ui                                                                           ..                            ..:i:,xlirl:,:ixni,   ;uZ%88@@#ZY#@@@Jl!,,.  ,i:,;uJ%@@%ZXxn.     !i!;.@@@@@@uc@@8xxX@Xnl::!i!rrilrxnuXX@@@@@@@@@@8cnlruYYvrriivu::,.       .,. .:  ,n
+             r  r!.%@J     ,:JXn8#.c@Y                                 u@Yn@@@@@J:.                                      ;.                    !#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Z@:       :  J@Zc@@@@%:                             .i@@#Xr,.   ;;.;:   .;l,!lililr:nvJiY#u%lu:;.         .    cu,:c.:@@YZn                                                                                                 ,n!  .:.     ::      ,.    :uX@@@@@@@@@@@@@n:,:,,:,iX#@@@@@@@@@@@%Z;      xi!:,@@@@@ZX@@@vc@r;rJci!rvJZ#@@@@@@@@@ZY@@YX%@@#ZYJJXYJnliiXv;ii;:,....   .:;:,.  ,
+             r  r. @#Y  .  ,,;JY@@;J@r                                 nYu@nY@@Z%@c                                     .;                   iY%@@@@@@@@@@@@@@@@@@@@@@@@@@@@Zc;,X:      .  .8@vnr@@@u                               ;Y@JcYl,,   :;,,,,   ;, ;.  !xrnniX%#JXnl,l,          .   ,rl .  x#@#Yl:.                                                                                              ;:;llcJ!;l!  ,.   .;lnnnxnX@@@@@@@@@@@@@@@Jrnvrlv@@@@XZ@Zcu@@@@@@@v       r!,;iX%@@@@@@@@vJx;lncYYYYXYXYcvnrlli;,,:v%u!.    .      ..nr..,..,,,...,:i!;llii   
+             l,  : @Jun,   :  !Z@@lv@r                                 Xvv@!l@@@@@X                                    .,                 .lJ,:@@J#@@@@@@@@@@@@@@@@@@@@@@@@!   :Z.       ...@Xn:r@@@;                               .x8@x;;!r;   ::,  ,,  !  .,   ,rcvX@#uxJr;r       ,         ;i:   iZr:i                                                                                               :irY#@@@@@@%rv#%vcX#@8ZvY%@@@@Zc#@@Zcc%@8vx!,..:v@@cZ#! !rv@@@@@@8uY.      !l rc:J@@@@@@@@@@@@@@@@@@%ZX%%XYJcccvvX@@@@Yi!vx;!n;,,,...iu;::,,..    :;irrxuZ@@#i:
+             ;!  ,:@c nX,  :  :X#@vZ@i                                c@Z@@cx@@@X@@i                                   ;:                 ,YYr8@X!@@@@@@@@@@@@@@@@@@@@r:!!X    xY       .. r@vl.@@@Z                                 !Z@%,..;vn   ,,..  !,i.    .   ,:i@@8lu;.r,,                :u:   uJ l,                                                                                           .:.l#%Z@@@@@@rl%@niYxl8ri%%###Z!.  !!.:xn!.     ,r8@u   Z#. r@@Y@@@@@;iv      ;l.J8Z@@@@@@#rxu!::::;luvJZXJvli!,:Y!:ccxZ#Z. uZi;Ynrxxrixu!::,,,,,:;     ;xuXZcvYcv
+             ,u   l@Y .!   ,  ,JclcXZ!                               .8@cZ!@l ;8@@@J                                   :,                  uX@@@ci@@@@@@@@@@@@@@@@@@@J   !u    cu       . .@@J.l@@@l              .                   nX@J .  !v.  .  ,  :iv      ..   J@@X@J!r   .,,.           ;xx:  .v,.;,.                                                                                        .:::lJ::l:rJ@v i@@urr,rx.:%@@n.xvrx%uxli.  .  ,!rlrn,    ,@v.lJnrX@@@@J.ir     ,: ivc#@Ynnni;;;:;lnxxrr!ixJXcxnJxc@@#i!X@Z#JluZ@Zcvx::iuu!;:,.   .,             ,,,
+              n   i@Z x.   ,  :vn;r8Z;                               ;@XvJ;@;  v@Z#@,                                  :                   !%8@@#@@@@@@@@@@@@@@@@@@@v,   ur    Xn  :;  ,  u@@r %@@@              .,                   :YY@! .   l:     ... :r      ,,.,X@uxlXYXxi;:,,!i!i:,. .      :.  .ll.  .                                                                                       .   ,c;   i!@l .r8r.;nl  lZn@%u#@@@@#JJxruZ@Zvclxnu!,.    !@Y,rrJZ@@@@@v.li   ,.   :,Jn        ..,,.      .,:nYv@@@@YrxZ@@Z@@@@@@Jrli;;i,....,,;ii!!;:,..          
+              i.  !@Z.r:   :  ,uxxuZZ.                               n@cv#YYc :@@Z8@,                                  ;                    J@@@@@@@@@@@@@@@@@@@@@@!     J;   :Jr  !  .. ;@@% ;@Y@c               ;.                   rnu#:     ,l.     :. :i.       .Z@luni:!.:;:,.    ...,:;.     ;.   :lr.                                                                                             rx  !x;@:  vZ!:@J;nYJ@@@nc@@@%i   lZ%vlrYX8Zl..xn,... v@n,x%uZ#Z@@@i :!         Y:                       i;l%@#x  u@c:i88Y@@%Xllx:            ..   .  .       
+              ;!  !@X x,   ;  ,l,xrXx                                8@:;Xc,Yur@@@J,                                   r                    X@@@@@@@@@@@@@@@@@@@@@!     .Z:   !ul :,  :  X8@n.X@@@Z:              :;                    n:c%:      r!     ;  ;  .    ..8ZriZx::    .,,..       ,..::,;v!  ...rr.                                                                                           iY  uZ8@n:v@ZY@#:,   v@n n@@@,  rXx.     ,n8@#lrZ!   ..u@ux@YvvlZ@@Y, ,        .r:                      xYr,8@#u  x@%: c%8@@ilY,:.                            
+               r  !@v u;   ;. ,l r#@v:,..                           ,@v.u@v  x#@@@x                                    ;                   .@@@@@@@@@@@@@@@@@@@@@:      ;J.   !ii !  ., i@v#:r@%@@x                ;                    .i,Y#!.     ,:     : .;    .  :Yr::rcn:        .....            i..u  .;  .                                                                                        ,n l@Z#@v;X%xX@u.    @@@@@n,:lnvi           :nX%@@%, ;  v@Z@@#r :%@@c. :       .:                       lJx.8@@v  c@@r.;!Y@@l;@cll                            
+               n  i@X.ri   :,  i .J8     ,.                         i@u!iYJ: ,@@@@u                                   :.                   x@@@@@@@@@@@@@@@@@@@@Z       lJ,   r:i,:  .. vYvJ.v@@@@;                :.                    ::!YZl       ,      .;,    . !Zli;ir8i                          ,,:n.    :.                                                                                        xiicZnrx!8vJ8J   ;l:@@@n  irl.                .J@@@i:x .cY%@@x  ;8%n ,n        ,                       !Xu:Z@%Z;l@Jl::. iY%%n%YJr                            
+               l, !@J,:l   :i!,r.  Yx    ;;                         Z#i. ;;.u@@@@l                                    i                 ,! @@@@@@@@@@@@@@@@@@@#@n       xv.   r,!;!  , ;Zn8i!Y@@@@!  .             ,:                     :,rY#u.      .       l:     ;@nr;ixvn.                          . :u.:i:YY.                                                                                       l,  n  ;xZYJv,   ,X@@@x ,i;                    .Y@@@Jvr :c%@@@.  uXr  n                                :Xvx8@ZYX##n     lXx@@@XJc                            
+               ,! ;v,: i    rnlvXl;::n  .lx                        ;c,  ,xl,n@@rx,                                    : .r              rri@@@@@@@@@@@@@@@@@@@rx:      .xi,   l.lx. ., lYJX!JY%@@Z! ..    ,         i                     : ,v8%c,      .   ,   u,    ,@nnxXuJ,r.                            ;r .,.ix:                                                                                      ;   :,.lJ#n:i   :J@@@X                          ;r@%YZ@;!uY@@@c,  n:  l.                               ,8YY8@ZY@Xxx   . iY,r@@vnv.                           
+                u  !:v i,  .rcccvl%r xr nYc                            ;lrrn@@,.l                                     ; ;!             .;;Z@@@@@@@@@@@@@@@@@@.  .      ,!:,   !;cx. . .!X%xuXv8@@Xi ..              i.                     . .n8Ju:       .  :   r,.  :@ucX@x8r.:.                          :.rc,    !;                                                                                     ;.  ;, !%u .; .:ln%@@X                          .,c%,!#XrYXZ@%!:. ;   ;                                 nYYZ@%cY,:x  ,i.iv  cYnr.                            
+                u, !:i ,.   n#Z%c v@i . l88.                          !:,Xic@r !:                                    ., x.             ,.!@@@@@@@@@@@@@@@@@@x          ::.,   :lvJ, . ,i@ZnZJv@@@u:   ,             .l                     .   xYvr:       . .,   i,,  #XYn@n@v  ,.                          xlXJn     ..,:!                                                                                !.  ,. l@, .lil, i%@@@,                         .:x@: vJ;;nZZ8:  .ll .:                                 luvZ@8Jr :i  ,r,!r  !l,l                             
+                nr.i.! .,.i.!@%8c r@@r. :%@Zl:,:,.....,:iir!        ,i.,#Jx%niJ%,                                    ;:!r           ,..urJ@@@@@@@@@@@@@@@@@@n          ;, :,  ,cJu. .. iXcJXJZ@@@c:    ;             x                      .   iYn,!        .,    :,;iXicZ@Z@Y.  ,,                          xuxXv,       ;                                                                                :   ::;Yv  !J!  iJY8xvl                          ,n@Ji;Zx .uvXl  .i .,                                  !n!X%8J, ::  .u:!n  ;; l                             
+                lc.!.i  ;;r.!@%Ju n%X8@xi8@@%%Z8@#@@@@Xnrrx:       ,: !Znn%@Xu%i                                     .i%i           :xlYvZ@@@@@@@@@@@@@@@@@@@;         i, ,:  ,vnn: .  xcvuxl@@@@v;.   .;            ;;                          iZl ;.       ,,    :.x%rx#@%#@i:   ,                         ;!ncX8x.     l                                                                                ,   ;:r%;  Ji   cZY8. x                         :lv%l;iYY ,l:un  ..                                     !n,uXZv  :   .J:rx  i; n.                            
+                lX;!.l  rrx i@#vu!liX.lX;,    .,,:!!ivYrlJ#J.     ,,,v@ni@@c.;u                                      .:Y:           !r.ZZ@@8@@@#@@@@@@@@@@#%#!         i  .!  ,uii;   .xirli!8@@@Y!.    ,:            n                           !J; :,       ..   ..:JvJZ@ux@nn!,  ;                          .vXZ@@l  :!;                                                                                ,  .irYJ  .x    Z@@@.                            unr  rXJ;x,.lr  .                                      ,! nJvl      ,u.cn  !, x.                            
+                iZrc!l  xnn.i%%uunv.%x.vr!         ;x%@@@c;        u@#:r8v: :Z:                                      . n            r!,@@@ii@@@@@@@@@@@@@@@Z           !   l. ;ni:!.  ,!;il;l@@@@Yl,     ,,           l;                           ;J, .:       ..   ,xl.v@@xl@!!..;;ir,                         !rl8@@n  n;                                                                                !  .xvZi  .l.  .%@8ZJ      i                     li   iu:il ,li .                                        i.lvYi  ..  :v.cn  ;  n,                            
+                ,YJc.r  rcc,xc8!rcv r@!l;ixnxvrrJ@@@@@@X;         v@Y:,!;  !@Zi                                     .  v.           n:,@@YJi%@@@@@@@@@@@@@@.           ;   ;; :ni.i.  !.;,l,u@@@@vi:      :,          .n                            ;c.  !,           xn ,%@%v@x;.    .:r;::,:,....            .  nrv@Zv   l                                                                               ,u  ;nvc   ;l   !#@vu@!    ,x                     iZx: lv.;  .rx!                                         l;lnx!  ;v.,uu nX. ,  n.                            
+                ;v8X,i  rcv.uZ%;lZn :@#v  :x%@@@@@@8vxi         .Z@Zi:,.  !8uX:                                        !            n!,@%vJv8@@@@@@@@@@@@@.            !    ! .li l,  : ! l!Y@@@@vx:       :.          l:                            ,n.  ;;        ,.,;, v@8c%J!:       .        .               .v;%vi:   ,                                                                              ,r. ;nvi   il   r@@u%@X    xr                     l#u, nZr.   ii                                          irrn!:  .c:xXl x%i .  !                             
+                ,xX@;r  rvv!c#@!l@n .#@@@@@@@@@@@#@@@@,      ,;n@@%v!!l!;rX! .                                     .   ,            !rlZJ@lr@@@@@@@@@@@@@Y             !    :: ll ;:  ..: lvY@@@#unl.       ,.         ,x                             iJ    !.       :r   ;@YnYXvx.      .,                     .  xix@,    .                                                                              ,c,  ru:  .:!  .v8@J@@,  ,,v;                     ;Y!..8J.    i   .;                                      ii;ni.   JxnYi n8! ,  ;                             
+                 ;JX;n  rucnX@@;u@x  l@@@@@@@@@@@@@@#x  .,..:xY%Ji::,.                                                 ,.           !ucnx@#Y@@@@@@@@@@@@@:             :     r :; .,   ,; !Ju@@@@crx:        :.         r:                            .in    ::       l;  .#8i8c!x!:,.     ..                       rl@.                                                                                   .J;  ;l   !:;  ;X@@@@c  .nxx                      rXl.JYl    !l   nr                                      .;:ll.   r:!X! n8:.:  ,                             
+                 :Z8!r  xnvY8@@ll@; :cc@%@%@@@8Jcnl;. ....,ivZJ:      .  ;,                                       .    !!           lvuJc@@@@@@@@@@@@@@@@.             ,     !,.i  .   ,: :xc@@@@Xlnl         ;:        :x                              ,x     :      , ;. u@i%%i!.  ..,..,,.,.                      ic:        .                                                                          :X:  i;   rc!  ;c@@@v.. innn                      nc;iXl,,;;,!.   ;r                                       i:!i,   ;.,Y!,vXi,; ..                             
+                 ;ZJ:l, ruvX@@8@n@! ;Zuxnriirr       .:lc%@@@n   .:iv@@@@@:                                            ll           !YZXl%@@@@@@@@@@@@@@%              .      l x      ,, ;ru@8#@#vrr  .       :,        r;                              .x     .,   .;  :.:@vc@ii!         .,.,:                    ,n,   .    .!                                                                         :%. .r  ;!:xr  nJ@@@Y,.:vnxx                      uZ%@Yvun:  .    :l                                       r::n,   ;:.urixxr;;                                
+                 icX;i, !vv@8Zx%@@i u@l .,,.  ...:!iu@@@@@c.  .r@@@@@@uvc.                                      ,:     ;:          .!Z@J!J@@@@@@@@@@@@@@%                     i:i      ,, :!v@ZX@@u!r:          ,;       .r                                !.     :. .,   ,l@uu@l:l           ...,                    .     .    :,                                                                        :%. :i  ;;.,x.:X#@@@@@JYunvi           ,      ;x%@@@c;:!.    !:   .                                        r. x:   ;,.v!:rnr!;                                
+                 .n%i,. ;uc%uJ.n@@n,!%n   . .n%YcZ@@@@@@@@@#@@@@@#cl,.x@Ylxxn:                                   .:     .          ;r#@n;r@@@@@@@@@@@@@@%                      l!,     .. ,!x@8v@@cill           ,!       l;                                ::     .,.:    .XX:@c:l,                                   ,                                                                                   ,Z  i. ,!! :lluY@@@@@@@@ilc,         .!.  .n8@@@cl,:,..   .!;Zn  .:                                        l  x:   :.,Jn:xJul:                                
+                  i%!.  :vccxc !@@Y!.@Y .  ,%@c::lcY@%Z#@@#@%YxlxvcJ%@#Jx!:.                                       ,    ,           rZXxi;@@@@@@@@@@@@@@@,                     ;i;        .il#8x@#X!!i;           .l      ,r.                                .!      ,i.    i@rn%:r;                .                  .                                                                                   :X  l  i:: :!xYX@@@@@@X@@YXl.,,,,,, :JcnJX8Zn;.    :.     rxJu,vYi.                                       .! .i;   ;.,Yi :vvr,                                
+                  l@x.. :YZxii .@@Ycu@@!Zcrcn#Z;l;!i.   !rluYJurxcnl,                                                   !           iYuui:8@@@@@@@@@@@@@@J                      !:        .r;Z8u8%vr::r             !,     l!                                  ,.     .:,   .Jlr@l:r                                    l                                                                                  ,J .: ,,:. , v#@@@@@@@@@@@@@8vvvxli. .;;!nc.     .:    lll%@X:n@8.                                        ,; ,:::  YJlY, .cZu                                 
+                  rZx . .X@l,, :XZvXcX@@@@u  .Z!:!.                                                                                 nc!r!,8@@@@@@@@@@@@@vX!                     ;!        .r!YXnc@Xv,,:i             ;;     x.                                  .,       ,   r:.c@;n.                                   r                                                                                   c ;  ; !  . ;XZZX%ux@@!lirrl!,,.      .,,     ;i:..  xY!v@%v%@XJ                                         :i.,,.v!,%clJ: .lXv                                 
+                 .rXl    X@i  .,rnrXuv#@@r     i                                                                                    xx.l,:%@@@@@@@@@@@@#xv!                     .l,        lrcYun#%X;, !,             .!    ,r                                    .       .: !! :@Jr:                  .                :.                                                                                 :c.:  , ! ,. .v;x.,. !@x ii .:iucYcY8ZJn,    ..   ;l,uc:,c8#@@: l.                                        :r.:: xcXX.,vi .ivn                                 
+                 ,nvl .  %@!  : :n,ccX#@v                                                                                           l!   .v@@@@@@@@@@@@@v!                       :!        :nnnu!XZXx.. i               ;.   i!                                              lx  n@Jn                                    !                                                                                 iu.. : .! ,  rn.i;,   ,Y: n. :;i!,:;;lrl;!!i,   .,!xJi   ;@@n   i                                         .i ;x,v@@u.,lx..!xi                                 
+                 ,lrr.. .Z@i    .u  xZ@@u.                                                                :..                      .l;   ,X@@@@@@@@@@@@@Y                         :,       :uulrllZrY., :!               .:   l.                                              l;..XXZl                                   r                                                                                 !l,  : ;! : in ,;Zi    i8rrXxl!::,           ...  !v,   .vY.    :                                          ; :xlX@@l.i;;. :nl                                 
+                 :!,x..  x@l    .Jl,X%8cr                                                                 ,x                         ;   ,X@@@@@@@@@@@@@n.:                        :       .Jrl!v:8x8:.  l..               ,. .i                                              ..,;ucYJ!.                                 :,                                                                                !l:   xu,,; ni  iJl   ,:lJl:. .:!.          .   .ii     :l                                                 , iJv@@@; ,::  ,ux                                 
+                 :!.x.   :Zl    ,XXiZ@v,l                                                                 :,             ;           ,   ,Z#@@@@@@@@@@@@! ,                         ,       Jrl,XlnYnc ,  !.,                , ,:                                              ,  ;ZYZ;;i                                 .                                                                                !,    .Y !l,c:  iJi      .      :i, ,:....,ii:lni. .    ;.                                                   r%JJ@#: .::   r!                                 
+                 nr r;.   J!    ,uc,x@v l                                                                 .             .!               !@#@@Z@@@@@@@@@:,l                         .       xv;.ic!8i%;.  ,,.                 ..l.                                             ,   lJJr.:l!                                                                                                                .  ,   YrvYxX.  :J: ., !. ;       c@@@%#YJYXni!.  .!   ..                                                    i@%X%%x  ;:.  ;:                                 
+                 vr :i,   8Z.   ,il,l@x                                                                              .    :           .  n@@@8X@@@@@@@@@uui                          .      ;v,..cicrlX,   .,,                  ,n.                                            .   .vxc!..,!,                                                                                                             .   ,  ,xY@@Ji   :8;  : n!       ,,v@@@@@@@@@@ci   ;                                                         .lZu;r@u, :,:  !,                                 
+                 vn .!.   @@i   ;!i:!@n                                                                              l    .           .  c@@@u8@@@@@@@@@@v.                           .  .  .Y,, !rrY:Jx.   :;                   .x.                                            .   !cn::...,;!,                                                                                                          .      ::r@8l    :%l .i.xi       i#@uvn.:!llliri;i,                                                          .:x;  Yr!i:.:  i;                                 
+                 %v  n.   %@x   ;;il;@u                                                                             ,i .   .          .  J@@@v@@@@@@@@@@Z!                             .,,   J:: ,xiZi,v!    i,                   .i.                                               .uJr,,  .,:!!,.                          .                                                                            .      ; ,@%!    ,nl.:v!x:  l;,!n8@X:;,                                                                      . !,  xr:Yx.:  i,                                 
+                 @v  u,   @@r   ;:!l,@c                                                                     .     : ri.    ,             X@@@Z@@@@@@@@@@;.                              ,.   xr,  i!rJ.ri:   .!                    .:                                                :vv:;,   .,;;..           .              .                                                                           !l     :  8@;    ;: r;:Z8;  :. .nuxuc!,                                                                      ..i   nY:xn :  l,                                 
+                :@x  l:  ,@@i   ;,:n.ZZ                                                                          .;,xi   .               #@@@8@@@@@@@@@X                                 ,   ,Y:  ,:;X!:i:,   ,:                    .,                                                iYr.;      .;;,           .           :.;                                                                           l!.    ;  v%     ;l,l8lZ@n  i,  :rYl,in.                                                                     .     rXliv... i.                                 
+                ZJ:  i;  l@@,   !l,v.v@.                                                                         ;l! r     .             8@@@@@@@@@@@@@n   ,                             .    ul.  ,.xY l,;.   :.                    ..                                                iv,,;        ::       .   .          .l.                                                                          ,i ,.   :  J%  ,  !::Z@#@@#  ,x   rJn  !x                                                                     .     rcnJ#;.. l,                                 
+                Xv:, !!  i@@,   iY:v,l@:                                                                     ,  .li  ;     .             #@@@@@@@@@@@@@l  ,;                             .    il,  ..:Zr:l ;.   !.                    ..                                                vl ::         .,.         .          !:;                                                                         ,. ..  l:  Y@  ! .8urX%J%@@i  ;!   v.   .i                                                                    .,    ucn#@x.  x:                                 
+                @u.; ,!  ,@@:  .nv,v;:@i                                                                     ,  ;n:                      @@@@@@@@@@@@@@:  ,,                            .,    :!:   .:i#.!. :   ,;                                                                      ,J. !..         .,        .            i!                                                                        .     ,c: ,v@:,Y. Yi .rJ8@@@n. :;,.xn.   i,                                                                   ,;    luu@@%!  ;:                                 
+               i@@nx .r  .@@:  ,cc.cl.8v                                                                       ,vl                      .@@@@@@@@@@@@@@:. :    .                        .;    ,;,    ..Jr :  :   :,                      .                                               lx .i                     ,            n,                                                                       .  .. lJ, i:YirJ, vu..:iuc@@@%l.uYl;8Y    !                                                                   :!    ;YJ@ZJn. .:                                 
+              ,8J8@8. i  :@@l  ,8x.vr vX.                                                                     .lx                       ;@@@@@@@@@@@@@@:, ,  ,::.              .         :.   .:,      ;#. .  :   !.                                                                      n, ii                     :           ;8                                                                          .,.nc  l.vnrn: vv,i:.!iZ@@JJvY@cl;Y8,.:;!                                                                  .:    ,YY@Y!r. .:                                 
+              n@,XZ#i ;  :@Zl  ,@Jlrx,!Z.                                                                     xv:                       r@@@@@@@@@@@@@@lJiuZJx:.,.             .         .;    ,:     . vu     ,  ,i                                                                      .u  ii                    ;:          .#c,                                                                        ,;!vr ::,cc.;! ci l    rX@Yu; x%c!.X#xi!v!                                                                 .!.   ,vv8u.:, .;,,                               
+              @n nl%r.i  l@i;  .#%!;i;,X:                                                                     ix                        n@@@@@@@@@@@@@@YXiYl,:;,..!xili,                  i     ::    ...X:     ,  i!                                                                      ;n  r;                    !,,         lZX          ,                                                             :;lcl::.:cYlr! J; .     .v%Jul:v@@!,uvJ:.nl.                                                               .i;    :nXi .:  ,:x.                              
+             ;@. !;Xn.!. Y@.;; .#J,:;l.n!                                                                     u:                        Z@@@@@@@@@@@@@@@Jlx:irlnZccXvvx.   .:             i.     ;     , iX      ,  n.                                                                      x;  u:         ,            ;l:       Yr;         :                                                             :;xcY;  !!:rYu,c:         un;nccv#@::,i@: ,i:                                                               i!     rYi.      l.                              
+             un  :iX8x:. 8Z .! :@X.:,x,i.                                                                     !                       ,!@@@@@@@@@@@@@@@@nucixuJ@@Jirirrllxni.  :,        .:!     ,.     .,Yn     .. ,l                                                                       r. .v,         .:;:, .  ,r:,rl!,.!ul!:,i!         .                                                            ;;nXJ.. i. lc;,v;         .n  ,Jv:ZZ:i ;X.  .;                                                             .::     rXnx      l                               
+            :%,  !rv8X: ,@n  ! :@u.: iii                                                                                  .           ;c@@@@@@@@@@@@@@@Z;i;:vXcv@@@@#YX#%l;n::,:    ...  . x      .       :8;     ., !!                                                                      ,x  .v,     .,    ;vrrlx#@@vllnr, ,x%vvY!i                                                                     ::cXl . c. nv,l%v          :r   rnr@Ji; lc:   ,                                                          : ,:,     ncru.    .n.                              
+            :x!  ixunv,.n@#J!:;i@v.: :nl                                                                     :                        ;J@@@@@@@@@@@@@@@@@@X8#u8@%%@@@@@%ucu!,:luxxrii:.  ,.x,    ..       .rZ.     .. r,                                                           !l        .xci.!Y::;,..xvcr,;nixY#8@@@@uruur   niZ@i                                                                    .nn%r.  .8. c;.X@Y            :   ;:l%r   rYi.  .                                                         i.,::     xvin,    :u                               
+              .l,ru:,c. Y@8@, lv%Xi!  xr                                                                     ,:                       r%@@@@@@@@@@@@@@@@Xv#@@X8@ZYYcYJY#88vnuccY8XXJrlilrJvrn,..!.         .JY      ...r                                                            X@rYxui!nxn%@#8@@%@@%XXX8@@%#vnrxY%@@@8Jl,;!,  , Yx,,                                                                  l.:#:   ,%. 8J!rcr             ,   , !X,  .rY; .;                                                         ;lli,.    ;n!l;    ln                               
+               .ni  .n. u@uJ  nYnrxx  ;l                                                                      ;                      ,l@@@@@@@@@@@@@@@@x.:;:;!lxr!lnuJ@@XYXXvrvYZYZ@JucYXccu@ZuXJillrx.     !#n      . ;r                                                 .   !!l!!:,v@@@@ZcX8YX%8YvY@JY8ZZZYJX%@#ZYncvnurrri:;:::..!:X,:,                                                                 . !J,., :@,!@r   i              ,  :: xv,  .c;   :.                                                       ,Jc! ,    ;u!lx  ,,rx                               
+                !n   l  c@%c.J@Zi:;Z. ;i                                                                      ,                      ,!@@@@@@@@@@@@@@@@!!l!:  ,:!lvZ@@@@@@%@@@@@@@@8Z8%@%8%%@@Z@Xcvcil!,    :Y@i        r!                                           ..   Y..x%xlJ%xr!Z@@@@ZJ%XncXcnY@@ZZXurrr:::,..ivrrl.  ,;     rnvZx, .                                                                : :;,.. ,%nJ#:   ;               . .!,.!l:  .c;   ,l                                                      ,nx; ..   ,r::r  iicx                               
+                ,r; .r  #@@%:@@Zl; v:                                                                         .                     ,,l@%@@@@@@@@@@@@@@@@Xvn!,..rxxZ#@@Zcu#@@@@@@@%JnrncY@@@@@XXuxl;l!   !xxuu@X,..      v,                                        .:;!:,.Z!.:vZx::inZvYZZYvxxx!iccvY#@@@@Ynnl!:,:!!rnl!ni:: ;r!!,.,r8%l;:,                                                                i:!  ,. :Z::#:   !.               ,!i: .,i,  !Y.   .c                                                     .i!;  .  ..;, r,.xi8r                               
+                ,,:..r  Y@@@J@@Yl; ix                                                                        ..                     ,:u@%@@@@@@@@@@@@@!.  .       .   .ill:,.,:!li!i;::lnxixrnYi,!!..,;xnrr: .i8%l       .c.                                    .   !l nu;v,.    ;:ixrr,..,.     .: i!;nZ:.,::ii;::,,.,.!.      .!;  ,XZu:;. :..                                                           ii.  ;. :Y.:Zx   :.                :un: ,.;.  rv.   !X, .l                                                 . .     ..!, ncln!Xl                               
+                , .Zun. X@@@@@@i.! ;v,                                                                        ,                      :#@#@@@@@@@@@@@@. .!. .           .,x.             .   , i... .   .:ir:   X@J: .,    rZ                                   ;!,   : x:,l                          .  :n.   .       . ..               :in!!:,i                                                          xi   ,  ,J,:cc:  .:                .nvn  ..,  .,x   !x%r,x!                                                          :  lXJul8!                               
+                :  c@cii@@@@@@@i i ,nl                                                                         ,                     n@@#@@@@@@@@@@@Y:,.,;,   .,.    :;. lZ.  .       ....  , ;:.;:..,;:::,.:xr;v8Yr,;;, rcXY:                                  ;.     ..                     i    : ,!  ;r .v;,.  ,:    ,.,,               .   :i                                                        ,v.   ,   r.;vu!   .                 :rJ! . .  , ,r  .ru@l,v:                                                      ,  .  ;YJnu#;                               
+               ::  i@vc%c8X@@@@i r ..l,                                                                                        .    .@@@%@@@@@@@@@@@c.   .rvi;.   ,!i! , .@@v.    ...;l! .;  , n; ...:.   ,,,u!inZX8x  ,;lJ,;u                                   ;;..                       . !Jl. .;: ,  ;Y@x ,       ,ir.                 r,  :l;                                                       :c    :,  ; ;Ynv!                     .iX, ...  ; !r   ;nX.iv;                                                    ,,,;v  ;Yulu@:                               
+               !.  i@8xnvv X@@@i l..,in                                                                                        .    r@@@8@@@@@@@@@@@Y;    ;#@Xr;!r:.:XrnZ:r@@@l:,i:  :.liYn  . ,!           ;:   .rxJ;  ;n:. lu                                   ,!..   ,   . .         !l:, :8@ZJrxx,!xlv@@!r;  .:;iiii:  ...       ,     :J; :,,i.  ..                                                 ;c    ni  ! ;XnYu                       !c   ,: ., n!    xvrrn:                                                   :liic. :YvxJ@:                               
+               i   n@x;!Yv v@@@; !;rX!.                                                                                        .    8X@8%@@@@@@@@@@c%J:xnrcZ@@@@@@@@@@@JJ@@@@@@@@@@%Xil#%J    , !,i         :     ,l!c:  ,.,. rx                                       .::!i:;.  .. :;!l!x@@@@@@@@@@@@@8Z@@@ZXJixXZYvlcnrl:,.     .!xJJurl;;. x@%i  r;  !                                                 nx    nZ.   ;YivJ                        iu.  ,, . !cl    lcu,i,                                                  luuxr. !ZYv%@!                               
+            ,!vr   c; v:rY !@@@i r#%:                                                                                          !   nJY@Z%#@@@@@%@@@@@@Yuc%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%,!,  :x@.        .       ;!,nl.  .,, xl                                   ,;,,,;;,,, .,.  J%@@@@@@@@@@@@@@@@@@@@@@@@@@@%Z@XXvil:      ,iilYZ!    ,vXc@%#x: x  :                                                ,,     i@l   ,8xX8.                        :l:   ;;   l;    ;Xv ;.                                              . ,#X8Yx, iZvX@@!                               
+           .x:c%:,%v  8cu# .@@@@J%Zr                                                                                           i. ,v:X@Z@@@@@@@@@@@@@@urxxX#@@@@@@@@@@@@@@@@@@@@@@@@%X%XX@8%@Znv@%.        .     ,  i..ul:   ,, n;                            .     .:. .:;:.:i:..;c@@@@@@@@@@rnZ%8@@@Yx8#@@@@@@@@#8x;:ixr. ,, ,x!lY!        iZnvucXrn.  ,                                               ,in:   lYu   i@%%Z                           ;:   :i.  ;,    i@! ;.                                             r. YYZ8c. rYX#@@,                               
+            :.i,vx!;  i@@@; %@@@u;cl.                                                                                         ,r  l. @@@@@@@@@@@@@@@@#ZcY%@@@@@@@@@@8#@@@@@@@@@@@@@#X,;@8v#@Z@@@cli ,:,         ..   !.,rrr,  .,.v:                         ,          :l!::;;.  ,u@@@@@@@@@@@cZ@@@@#@@@i!xvY@@@@@@@@@@@@%nxn.,rnnx, ..:.    .irvJcJxlu!!;                                                :!vx  ucv, !@@#J8.                           r,   !!  :i.  . n@. i                                            .,:lZ%J%Z. xxv@@X.                               
+            ,i, i  :  ,@@@Yn@%@@l.ni.                                                                                         xi  : .@@@@@@@@@@88@@@%@Jx%###@@@#@@@@n;,XvZ@@@@#%@@@@@@@@v v@@@@@xnJJ!      .    .     i ,!!x;  ..:X:                      :,        ,:ir:.:.   .rY@Z88@@@@uJ@@@@@@Xnxrvn:,!!lYY@@@@@%%@@8cx;. ;JZrii,    .   . .lrJ@@@@@@vri                                              ! .i!.nvvi!nZ@#vY.                           ,Jv;  :   ,x:  ; cZ  !                                              .%@vx8: r, c@r                                
+            .!    :,  .Z@@@n!lu@X:uc:                                                                                        ;l,  x :@@@@@@@@@@#8@@@r@u.:lv8@@X@@@Yr,, .@v%@@Xc@@@@@@@@vvlcc@@@@@cuYr:    ,.        .. :  ;,lr. .,,J:                   .;         ;i,   .    ivv%@#YJ@@@vJ%@%@@@Xcx,.l;i: .ci:vi%@@@@@@@8%x, :J%ln..               ul.c!,,.                                             ., :, iil%JnlX@@Jv,                            ;nX!  .   li: .r,JZ .l                                              n@%;Ju ,. !@x                                
+            ,!    x! .rJ@8i.  ;@@iY@x                                                                                        !.  !Jix@@@@@@@@@@@@Zc@XZ@:,xJYJ@@@Zvr! ., !vY@8%nv@@@@@@Yi!n ;@8lJulxr;;n.  :    ,    :.  .  ! :n! ...c:                 ..        .:        .rvuu8iiJ,;v@cn:lZ##@@@Zuxx::,   ,l:JY:;v8@@@@%!l; !Y8cl;,.;n.           , !J   .                                             ;   i.,cJ%: iX@@x!;                            .,vJ.     rv;, iY,n%i;i                                             n@%uuY!!; ,@Y,.                              
+                  i,;iiu8cl,::nc@ic@X,                                                                                      , ,  lXJ@@@@@8@@@@@@@JX@@Jiii,,;:!Z@@@XJ: .  lvnvXn;!u%vrnxX,:x8Yx8@l..!v!il!,     .    ,   .:  ;. nc: ..ci                         .        .icJcvnX: n; .cx, .lruc! .J@i,       ,ll;i!, uulx;i  l#@r  :xn,             .c!    .                                            , :.JJ!r%J  rJ##: .                            . :vr    ; ,Jn:;nl x%rXi                                        ,;. x@nr!:cii..@@x                               
+                       ;Zv@cJn::Zur@@l                                                                                           r%X@@@@@Y@@@@@@@Zvcx:,..;u8,  x@@@xi:  .: ;:irZv!!   icvnuxv#Z%Z;,.x%;i:     ..   ,. .   .  :, :Jn..;Y!                             .   !x;rY! !X  .   ,. :8ccJu%@#;.        .rix.   ,:!:;   c@@x:!i.               n;,                                                ..;JX8n;:Xn ,u8Z!                                  lx;  ,   :8cr!nv .@@i                                      ,:l:;!vY:.: ux.il@@X                               
+                       rXv@@@Jrl%J;@@v                                                                                           c8c@@%@@XY@@@@@@Zl.    :X%#!,  xxZ8nl,...  ..!uJ8%X8vZ@8v;rvr;niY. i;r.  :.  :    !,!.    .  .i  iv:.;J!                           .    :,n#urrlYv;..      :cvx!:.   ..      .,   .i.   ;:.,:nY@r;.                :,          ,x                                        i, v#c!Ju x:YX:                                   nn...    J@Xxvi! l@Y                                        ,:,:YXxrcnYX,x%@@Y.                              
+                       .Y@X@@@@@#x,Y@J!                                                                                          %@n@@@#@@Z@@@@@Y.   ..,rul:!nx,.  !!!:        ..:!lvcXZn;,   :. :  , :; ,i!,.,   :; .:     .   ii  rn;;vi                            .   ,::xcJvJv#u;;;:..          .  .;,      .!r;;,.   :.::n# .::               ,        ;, :x.                                          c@J!nn:! r%!                                   .,!i.    .@@8X!   l#r                                      ,,   i  rc#@XYc%@#i                               
+                         xc@@%v@#@%%@Jv                                                                                         !#@lZ@@u#@X@@@@@X.    !,. .n;uui      ,.                     ;iixunrr. ,: xcr;,   l  ,           ,n! ,vx!cr                ,          i.  .i;iii;ruJuxl:;:             ..    ,ilirr!!irxvxi:.!:Xn :,.               ;        !    ,,                                         r@Y!xXc. ,@u                                     ,uv.    #@@Z  .. lJ!                                         i.  .nvc   ,Y#x                               
+                          ;@Zxuxl!;i#Z#,                                                                                        n@@uY@@%!@8@@@@Zc.     : .J@@@@@8@@,       .               .!YXi:,..    ;XYJ. .  .r  . ,,          .,.,nvnJ;                          l,    iv:!v!:,            .,        !;,:; .;rriilvx.    ;@l ,u;               ;:       :     .!                                      ::i@@!x@J  .@r                                      ,,Zi   v%#@i,l .;.n,                                        nnuuY@%#x:!,;vr                               
+                         .x,        nvv!                                                                                         %@x @@@n8@@@@%x!     .,ixl:J@#rccvrix;,                    .:           :       ,; .: n.            ...lYJXl            ,   .                  ,  .. :xlru@%vrvr,x,.,,iilYnJJlJJxxrirxcJn:   x@r .r                :v       ,       ;                                     !i;Z@!x@%.  Zx                                        :%x  Z@%%@Zn;: !XJ,                                     :Xnc@@@%vui:,  !r                               
+                                    ,!:i                                                                                         c@X n@@@Y@@@@Z!.     . :.  ,lX%XrJ@@@@%!                     :rl;.,:::   .  .;,,i, :: r:                ,xv%v,          ,  ;             : ,;      :nZ#uvJ@YxYJZv@Xlvuu#@@nn:%8x..       :.  Z@! .  ,,.;!l!:  ..,:..X      .         i                                    r: !@!v@@i  Yr                                         iuu.,x@#Z%8Yi.,ZZ:                                      :in@@@Yxxr!!iix;                               
+                                       !                                                                                         r@@. 8@@@@@@@X,.             :n;J8X@%ilZ%xrv:uXl...,!. !; .! ,lJx.        ;rcu; .!:r. nr,              .  ,:v#n!.      .   . ..           . ..      :.;;:v%:ri:Y@@@ZZJ!!x%xn..r   .         ivu. .!Jv. ,,..:uJx, .u:J;     ,         ,;                                   v:  vnX@nr v@:                                         :nic!.rnvJY:.;n%@%;                                        ;u@@@%8c,                                   
+                                                                                                                                 i@@Z  @@@@@@@@l:           ,;:uJ!,r8r  :c;X@Yc: .!i:vnnvr;.:;,             rcni   !! !vr                 . . ;%@Yx;.    .. .:,:                         ;%#in:,n8xn!.    .ri:  ,            rvr  ,,.!8n..  ,,,cYxl:!Zl     .         .                                   ;n!  .Y@Y l8@@!                                          ;!,xrlcvr.    x%@8r:                                      ,;i;,!#Yr;                                  
+                                                                                                                                .l@@@J,;v8@@@@@@J             ;i!. .:vcrvv!Zv.   ..,.r@i   . l,.             .      . !cr                      .nunrrlnl;n    ,                            ::;ixn8r:::.    ,.:              ,:i,       :,. ...  !!,;vvu:   .                                              n,,   v@ZcX@Zvr                                           .: i#8rrnvJ8viuvi.i,                                           :                                     
+                                                                                                                                 ,@vnlllix8@@@@@@%,                ...ivcZ@#r;!!l,  .l  .;. !,                      :  ;c                        irrr:::rxr,  ,                          .,  .;rvYvr!,.                    .;,;                      ,:    .                                             .n .   ;X,  :l.;                                            .,,l      ,ivXvi                                                                                    
+                                                                                                                                 ,@riYxnvrJn@@@@@@@c.                   !r;!ili!:.,. .    .,,                       ,:  x                         :;:i:,,.. :ll,                                  ..,             .        , .                      ,; .  .                                              i;      l                                                    i!          .:;:                                                                                   
+                                                                                                                                 :@@@@@@@@@@%8@@@@@@@X.                 ,. ,!,,ill!;:,.                              :  n.   l                      ,.;r:..     ..                                           .i:          !n:.           .,..          .                                                 ;                                                                           ,nc:                                                                                
+                                                                                                                               ,c@@@@@@@@@@@@XZ@ulx@@J     !u,              . ....                                   ;  n!  .X:                      ..,!!                                                 .xu:   .... ,:,.xZl         ;,xcxl,     :i. .                                                                                                                               .!                                                                                
+                                                                                                                               c@@@@@@@@@#%@@@@@8%#@Y       :.                                                       ,  xx.  n.                       .:  ;;                                              iYx::!:,::,:i:,  .@v,      lJYYY:        ri .                                                                                                                                                                                                                  
+                                                                                                                              i@@@@@@@@@r;:,.r%@XJ@#.                                                                   :x.  r,                         ..  ;i.                                         ,xZ:       ,:,,,    v8v. ; ,Jcrlnl..,                                                                                                                                                                                                                            
+                                                     .,... ..                                                              .  @@@@@@@@@%nu.    uXir,      :.                                                            .x . i.                           ,.  :;,                                      ;cX:                  J%i ;u@n :,     ,  .,                                                                                                                                                                                                                       
+                                                  .                                                                          Y@c#@@@@J!::!rli, ,Y;iYXl,    n                                                            .c ; l:                             ,.  .!:                                   .Yc!                   ,%i  @@l,,        nrli                                                                                                                                                                                                                      
+                 ..                                              ,;!!;;;;!i!;!!:,,.,,...                                   ,r##J@@@@J,      .i!!x!cYvJXr.  rl  .,                                                       ,c : i;                                   .,.                                .Zi,                     Jx  #@v          l..c                                                                                                                                                                                                                      
+                i,   .           ,,,......               .:..       ,,::;;!!rJ#@@@%888YZYi,                                ;@%@@@@@@;         ,Yu:.,.   .   :!  .                                                      ..v.. ::                                      .                               8v    .                  rv  %@!           !,Y.                                                                                                                                                                                                                     
+               ;.              ,r;:::;:;liirvx,.,,,.,::, :lxcX88YJJcvvcvvvYX@@%cxli!lrir.                                  :@8@@@@@@i       ;ii@@Y!;.        ;   ,                                                   . i.J.   .                                                                    .c@l.   .                  ,c  n#           ;u:%,                                                                                                                                                                                                                     
+              :,        ;:   :rYc;!ruxnuvvvxlri!!;:,.!vnnvcYX#@@@@@@@@@@@@@@@@@%vnr;  ix!,                                 ,@@@@@@@@l        .,lYZ;:,.        !  ,.                                                  ! x.c.   .                                                                   ,n.rc .:                     l:,vc   uJJx  . !u.8i                                                                                                                                                                                                                     
+             :!       .v@@xx%JxY@Xi:...     .....,,::,,:,..:iv#@@@@@#Xuiii;,.:lui,lvxJ#rxv                                 ,@@@@@@@@l            i            ,l  iu;                                                i l.X    .                                                                  .ni .Y  ! .                   !xrZ!lcXXZXvr;linJv!!                                                                                                                                                                                                                     
+            :n       J@ZZ@8Yn   ;rn:,::;!::.   ..,:!ruuY@@@@@@@@@#JcuYZurlxxnvuXZZJxJ@Z;                                   .@@@@@@@@u    :;.                   .ri,l@x.                                              l !.Y.                                                                  ,.    !.rn  ;:                    iin%vv;.     ,  nXn .                                                                                                                                                                                                                     
+           .v.   .,n@X.  Y@@@x!:!@@x;::,:ixrvY%@@#Z8Jvrc@@@@@@@@@@8JJvvl.      ,Jr   ;@J                                    @@@X@@@@%   .!;,                    :Z%YJ@@X.                                            !.: ,                                                                .!cr      ;Z; .!:                    ,lux,          i!@@,                                                                                                                                                                                                                      
+           r,   !@@@!.,ii%@@@Jrr!Xn     ,;;;;:,iJ!  :ilnYYcnri,...:       ; .:iZY,   ,%#.                                   Y@@8@@@Zc   l..                      rxicrZ@@.                                           in, .                                                              .x8v;:.     cu   ; .                    n@cZu:   .;nxrr8@@:                                                                                                                                                                                                                      
+          ::  c%@@@XxvnclJc8@x,;vr  .lvxri,.           ,i!,,.:,  ..,;:,rX@%vxZ8i     .uX!                                   v@@@@@@#n  i: .                       ,..!#@@X:                                   ,   .  :x  .                                                            ,X@@8x,.     rc,   ; .                     %%8@@@%lrcJ%%@@@@n                                                                                                                                                                                                                      
+         ,l,:x@@@@%!  :! x8@@l !!!:!xJcc%@@XXZXJZYYXJcYZ8Jxn:,:,,,...;%@Zx;lri      ..,!ux;.                                n@@@@@@Yi ,r ,,                        rlJ@@@@@x                                      .  :;  .                                                         ic@@8cr:,:,.,   :n    ,,                      ;Y%@@@@@@@@@@@@%ru                                                                                                                                                                                                                      
+        .rr!:lc@@@%.  :i!#@@@J;.:xlxvxuxxxc@@@@@@ZJXXJvr;.           :!;;xx:             .                                  x@@@@@xr. !; ..                       ,inc@@@@@c                            .        .   l:                                                     :l !uZ@%un!!cui:;;:     :r    ,                      ;@lJ@@@@@@@@@@X.                                                                                                                                                                                                                        
+              ,@vJJ  ,:::iv@@u : .   .;lJXZZn: :.                                                                           ;@@@@i.,   ...:                      .iZ:J@@@@x                             .        ,  .x,                                                     ZxX@@@Zirrlr!::!;        :x,                          cZx%@@@@@@YZ8.                                                                                                                                                                                                                         
+              X@urr  :. .::i@@i  liilxrr;.                                                                                 .;@@@: .  ,   .                      ., ;@@@@@@.                            .        ..  ,r  .                                                  Z@#%uci.,  ...;:           ;X.                         cZrnl:!lJJlnY!                                                                                                                                                                                                                         
+             ;@@88v.JY, .i. n@; ,J:                                                                                      , ,l@@i    .,                          .!. !@@@@X                             .        .   !x                                                    J@x ,i.       .              uX                         ZZi,     !!;nu                                                          :!;!i;;:;rli!:::.             .:;ii                                                                                                                            
+             x@vl@Z:,@; :n  r@: :n;                                                                                      ; :%@X,    i                           ,:.;.i@@@@. ::                        :             !:                                                  :,vc:.r                ,        #c                       ,#vY:     .   Y.                                                   ;xi:  ,;;!::xXu:!rxvcYXXZ888XYYnixvYr.:nr                                                                                                                            
+             u@; @@r!Zc.iu :J@l i!n                                                                                      l l@@l.   :.                          ,;: .  :@@@J  x!                      ..            ,i.                                                .r  YXl;                .         :8i                      .@!;v. .,.,   .i                                                    i%@YxuJ%@%Y8@@@@@@@@@@@@@@@@@@@%u:.,:;                                                                                                                              
+             XX  %@cJZrcxv ;Z@v.l.u:                                                                                    ,n ;@@.   :,                         ,::i  :   :vi@@l,l:                     :            .;;::                                              ,! .!c!                      ,      :%.                      Jl iu;,..     r                     ;                                ,un::iJ#8%Z#@88@YJ%@@@@@@@XJ!   ,:               .,                                                                                                               
+            .XY: u@vvZ;i@Y.:X@#il :;                                                                                    !l :@8    ,                         , .i        ,!x@@i  ,,                                ,iil                                               !;l,                         :c      vY ;.                   n. lZ  .      !,                   !@@u  :!x                            r;  ir;l8@cJ@rlx@@@@@cv.                                                                       ...                                                             
+            ;ri: !@cnJ; c%:!%@@%r ,i                                                                                    l:.i8v   .                            x.         l:i@@x  .,                              lv:n!                                               .Y%.                          c@,    .#r .,                     in;  .     .!                  l@@Z  iX#@Yrl              ,;;!!i;:::,n@XYu!:v@@@@x    J@@8lr                                                                     .,,::!n.                                                           
+            l,:i ,@@vc: :@nJ@@@@; .;                                                                                    J:. vi ,                             n.           i,,#@%;  ,                            .u; i;                                                iZ!                           c@x .  l@: :                     ,xi    .    l        .        :#@@; i#@@@ZZ.                          !  rZ#cu@Yc.    x@@Zi.                                                                u%Jcu:     !8vxi                                                        
+            l..r  @@xv! .@@8@JX@!  !                                                                                   ,Z   n..;                            u.             ;, n@@c                        ,  .  : . ,x                                               . i;        ,              .    8@8!:..Xi  .                     rr!  .     l                v@J:Zci8@@@@Yc                           .   ,v  Jncl!xx!@@#.                                                             .:  ,@x  .!vvlli;ii:,,...                                                    
+            l  x  J@uZi::Z@@#  @v .X!                                                                                  x@;  r,                            .x                 :.Y@@X!               ..     r: x. . .  r                                               .i.        .               .,    Z%%i: ir; :                      nv,       ;,             v@Yc! xr;8@@@@@X                      .,   ,    i .Yiv@ZXxY@@@:.:                                                          .;:  cx. .,:::rYn!.         .,..                                              
+            r  r; !@vY:.vX@@8.:@@Jcc!                                                                                  vn;                               .!                    ,#@@@@v,          ,.;    ..vx r, .  :iY                                                n@!      .                       r!l;  r,,..                     .J! .     .:           :@@, il,;,Y@Y%:v@:                       !: :.    ,  Zxv8X%iX@@@u.r                                                         .!:.;Yc!lruZ8ullvcccr.   ;i;.....,.  :!.                                       
+           .x  ir,u@%Xi JY%@@;,%@:  :                                                                                 .xl                               ,r                      #@@@@@@.         ,!..   ,;nv !i  ; xYi,                               ,;:             v@%:                             ,, .;.:,.,:                      .r,     .rl         .vZiX  !;..Z@vxl :@.                       ,:.        .Z.r#%@v@@@@v,v,                                                        rxlJ#vlrnY%%@@%#@%Jvx;,,!n%@@#vvJJZv:.:l.                                      
+           ,!  :X#u#@@r vZY@X  n@                                                                                     ::   .   .                        J:                 .  .c@@@@@@@i          r .,  .:Jr,,n  x..r.;  ,                 ::     ,!i!:              xJZvX.                                  ii ;!                       .;  .  ;i         !r:  Yr :: l@u,l  iu                        .,         .c;i@@@J@@@@Z,c:                                                    .,;J8J8%%Xcr:   :,,::i8Zrni   .!!Y%n!!ixv%Yvx!ii.      :;                          
+           :;   rXrlZ@l lZY%J, :8.                        ..                                                        ..   ::    .  ,;.                  i;                .!  ;8J:Z@@@@@v          l: .,:xrv;, xi nr ,;x  .                :l   .;i;.  ,nr:,:..!i!rucXJ .Ji                                    x  i                        :,   ..,      .;rJ.  !@@!!;Y@X,!,  c,                         .          :un@@@v@%@@Z n;                                                 .xXYlJXn8%X%!     ,.    !x.  ;n.  !!,n@@Ji:;nJl!Y%!,,......                           
+           ;;    i%!r@v l#JYX; ,Z, ..,:;ilillri,...       !xnYXXcxi!!;!icl                                        :i.   i:     in:.       ,x.         !:                ,:,;lvi i@@@@@@@          iv!:r@@@@x   n.:!: !X, :               lci;iii!;!vnnX@@@@@@88#@@ZJl    : .                               :J i, .:                        ;   ;.v.    .:  .J  rJ@ZYcl,i.:  :J                          .          .. J@@r8;Z@J,Y!                                              .iucv; :YX8r. :r!luvvunnJ#@@8Xu!,vx. .:.  c@@@Y;.   X@!                                  
+           !,   ..n:!@X i#vxJu:v@Yc@@#@Zcxi:.                 .;nJJvx;:;Zx     :.                                 ,    i:    .rl           ui         .                 .,: ,rJ@@@@@@@i8,         .:,!lxY@@@x  ,vi!r  Ju l             ,Z@@@#XrnvYZXYJc8Ycni,              ,X!                              u@vr, !                        .   rn           ;@,,r@@@i  :,i  ni                                    ,.. v@@xn i@n!8.                                            .xYnl: .u@@@i  ..:,.,.   .rvYXX88X!:l,,vYXX#v,r@@@Z:   8@l                                 
+           ,.     r.;X@.:Xuxxx ;#: ,ivi,...                     !v8Xn, !@x .:nZx.                               .,    ,.     .!            :                           :;  i@@@@@@@Z8l :x          ,,;!;!x@@@@vrJZl;! ru:!      ;    ,v@@XXJJi                     ..       :8u                              Z@8i ,,               .        ,  :v           :Y@x!%@@. . ,! .@v                                    :., Y@@8l :@ZYY                                           .ivn,. .lYY8Zx  ,n!,      inlrculxv%@XJXnrYZxrJ@8@@xuY,  x@J                                 
+            .     i,,:#r:8Xnru ,8,  vvnxncJYJYvrlll,       .::irJY.   ;x,.  iZ;                                  :   :,      ,                      .                 ., .8@@@@@@@x         ,.      ,! ..!xrx@@@%Xr.::;!:l     ,!   ,c@Xnv,.                       .          !x                              YX:. .                 :      ,:  iv;         n,cXX@@@. : ;; i@v                              vY    ; :!@@@@i  8@%Y,                                        .iini,,.!nu!;Jv:      .,     .i@@@@@n:...:!rv@@Y;;Y@@@cJ%n,:@@v                                
+            .     i,,:JY!%@Jlx.,Y: v!,8cllluYYcvl,...:ixucYvr!.  l   :;     Z!                                   ;.  l.      .          .!   ..,....                 .  x@@@@@@@v.   .       ,       ;       .c@@8ur;,,..r .    ,  %@%vnl                                      ,n                              l,,      l: :,        ll      .,:;:          lZnx@@@@. : n,.c@l                              nZ    !;:iX@@@:  c@Jv,                                       ,l,lr:,.:,..,:;,!.         ,v%#%#@@ZJr!irxnu!.l%@@Z:x@@@@XZ#ii@@Z,                              
+                  l;,:Y@u%@#vc.:X!rviv8#@@@@@%%@@8@@@@@ZZu!!::..iYYZ@@r....nn                                    .  .l                 !r:    x;,.                :   !@@@@@@@%;  !.  ,              :  i:     !@@cx;,!: ;:      u@@@xr,                .                       :u.                                     .Y.,;.        c,      :r.            @@xX@@%:.. v.i%@;                              uZ    :!nlu#@@,  n#lr,                                          uYnr;   .  .  .         ::,,            .ncl:!J@@u@ZicX!.. ,%8:   ..                         
+                  i:,.Y@YY@@ii:v@#@ZZZJZ@@@%8Zcrllnx;,:l#vnvc#@@YucZ@@@8!!nn                                        i:  .             ru !. .Yr.                 ,  ,Y@@@@@@@l   !i        .         ,  x.      .Z@Zulr; .i,. ,iY@@v,,.                  :                       !@;.                           :;  , .. :Y.!r,       iJ,,    :,             ;@:r%#%::rvx :n#.                              nX    !.c@X%@@,  nc:;:                                         !8XYx.  ,. ..                           ,   ;,  ,Z@@Z  ,,    ;X.   :u;                        
+                . !; .c@%Y#%,:iY@@r,,uYZZXcnllvJcuv@@@8ZZ%@@@@%u!:,:;;;:                                           .c   :xi;ixx,     !u ,: .Yl                  !, ,xX@@@@@n    .          .!.   !r::.  ,      .  c@@8Yx. :;:,riY@Y                      :                    .,  J#;,                           lr .  ;. l%;in:      !cl,.      .            8Y.xZ#;:rZl  iX.:                             v%    x::vvc@%   nu!.                                         ,8#ZZ,.,:. ,.                             ;ri;!!   l@@;       ;@#,   iv;                       
+                . !: .X@@vr@:,iv@Y    .:;lri!!v@@@#@@@ZXJx;:.   .:;. .!..                                          .r      ::,;xxi.  .     r!                  nc:  n@@@@J.                 ,lx!x:;rx!ri.      :  ;l%@@@%uxnYXil@%                       .:                     ; ,cc;.                           !ui  :!.!#X.,:.     ,cu.,     :             v@ .n%l,n%!  :X !                             vY    ir,rvn@X  ,Jn!.                                    .    v@@@ZvXZ; ..                                 ;xJXn, l@#;,.    .:@@u: :lv.                      
+                . !;. JX@%:8! lvZ@vli!!xcvl;;iv@YuZ@Z@@@@@%%8#@@@@@@Z@@cu.                                          ,       ,. .:!r:.     ;u:                .Zui::@@@@@r                      :Z@Xr;,;cx .    , .   iu8@@@8Jix@@,                   .   xl,                    ;  xYl.                            ;%. .; !v@v         lr     .u;             YY :v#u n@!  .v r                             Jr    .i.!nn@v  i@Y!.                                        i8@@%@XZx.,.                                    .lY%XJ%@v,  ,    i@Ynxrixl                      
+              : . !!. nx@@,Jx nx;!.:#@#rxX@@@@@@@@@ZJnii!!rnX@Zui:,.,i.                                              .        .,lYJl  .  ;l.                ;@8vc;8@@@Xi                        .rZr..  ,ru             iZ%nil8%l                       vJi!                   :   !lc:                             !%. !. l%@:       ,:.     ..l             8u ;u88.c@.  iu.l                             v.    .r ;nnZr ,vZv;                                        .u%@@%vnc:::  ,l!                                   :c@@@Xl  ,...  c%x:vYlr.                     
+              .   l:  ;r8@;uc li ,  JYx;rJJvc8@J;          :uYn:.    ::                                             :i,         :i!vr  lx.                 c@v;;r,x@@Zi      :                     :.     ,!.  . ..         .Yr;                    .  ;@r;,                  i    .,,:                              l%;.:  v@@..  :li.       ..:            !Yn !u#8;Y@n  cv n                             v      x :XXui:u:rni                                        !J@@%XvYY!:. ,%X                                      :@@#:  ::!!  !lnx,nZvi                     
+              . ..l:  :vn@vnZ :u;l:!%@v.      ..              .:!llllJu.                                          ,uuZ@u,         .!;!ux                  lv. iuuJ@@#l      rl                      :,uu   ..  .  . ; ,!:  ,i,.                        Yr,,!::.           .nrni     ;                                 ncl.   cZu:Yvni.      :,r              vvJ !x#@ v@@  Xr.n:                            n      x .l8c:,  ncn                                       :i%Z; iYXr.,  x@x                                       .@@X.,;!li   l:n, i@X                     
+                ,,i,   ; v@YJ  i:!  J@.                             ...                                             :8@@%Jr,     ;x!nn  .                ru!  ,J@@@@@.   !,.J                        iY@n!  ,       ! ,.,!ll                          xJ!nvci.          ,v@Z@@ni;.  ,:,                                .vv:   cncxZJ:      ;r,:             .;iv.!rZ8 c@@  %i.lx.                          .l      u  ;xx    ;!x;                                  .  !:v@!  !nu.,. .@%                                         c@@%l;!xn   !u8J  ,Zl                    
+                :;i,     r@%c.   :  ;;                                                                                #@@%@@%nuvJx:::                  .i,,  iu@@@@@8r:.x@,:l                         u@@c          ,     ,                      ,.   Z!;,     :, .,iJ@#@@@@@@%cvl:     .                                !vr  ixcc%Y      !xl .             :.,i.;:Jnr@@@, @!::l!                          ,;     .J. ;xl  i. ix!                                  ,.:cvXn   lu;..  l@i                                         i@J@Y,.lJ,  ;YZ#l  ,x.                   
+                ;!i, .   n@@c.   :                                                                                    X@@@@@@@@@@,                       ,  ZZ@@@@@@@X@@cc,,;                          @@@       ;ril:                       .   ,:  ui.  .:rv88@@@@@@@@@@@@@@@@@@@@Zx!,.ii;                              .rn.;v8@r,    :i;ri               : :i ,.u;.#@@i @;:.!i                          :,      u. ;rr  !. lxl                                   !lu#u   .cx..   %Y                                           8JYZ,.:vi   l@J;   ;                    
+                ;rl. ..  Y@@c.   ;                                                                                    n8@@@@@@@@c,                      ...@Z8@@@@@@@@@@@@nxl                          .@@Yu,  .v@niv,                       ;; ,:; rZ. .iv@@@@@@@@@@@@@@@@@@@@@@@@@@@@X,::,:;.                             !r,..:.   .;!rY .              .. ,!:,,u;,@@@x #::.i:                          :.     .x. ;x!  n: xxl                                   :rX@,   :Zi    :@;                                           rcn@v,:xl    c;    ,.                   
+                iui.  !  Z@@Y.   :                                                                                    ;iJ.,@@@%:                        .i@8v@@@@@@@@@@@@@@@.                           x%@@@   ;rYx                          ,:,rii8nlu%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ZXvX@:  :!.                            ,rx,;rrinvv%@i.Xn             :r .l!.,r:;@@@Z J;. i.                          .    .,:n. ;x:  c! !nv                                   :;@v    x@r    v@             .                              ;r !@c!rr.   nu    .:                   
+                :x:   l, YZ@v    .                                                                                    :ZZc8@@;                    :     n@@r@@@@@@@@@@@@@@@@;                           !!@@@Y     ,                           nlZr#@Z@@@@@@@@@@@@@@@@@@@@XvYZXvrrixZ@Znl,!vui !l;                            .lJYcJY@@@@YlZ@l             ivr vc ,r;x#@@@cn!  !                                .;!n. ;r:  ul  xJ.                                  !v@:   .X@!    #J                                            :r  X@Xxv;   !%.    ,                   
+                :n;   ,!,ux@J    ,.                                                                                  .cvi@Z;                     ..    n@@@@@@@@@@@@@@@@@@@,                           ;8u@@@%! ..   ,::                       vv:u8@@@@@@@@@@@@@@@@#8Xr;;:.         :vZ%v;i8@Z:r,!                            :c%rlxc@@@@@@@l             , i vX ;;ic8@%licl  ;                                .niu, :n:  nl ,nx                                  ,rZZ    ,#@!   ,@i                                            :r  r@#JXr   :@: .. ,.                  
+                :u;    :ix,Y#.   ,,                                                                                  ,#.                        !.   .Z@@@@@@@@@@@@@@@@@@@@r.                         .@uc@@@%Y: ..   !x                     ..x:,Jc@@@@@@@@@@@@n!.                      ;;;Y@@vl; ;                             .!x%@@@@@@@u                ,;xv !,ilx@,  uc  ;                                .Ynn, :n.  ul .il                                  !xXu    ;@Z:   i@.                                            ,r  .8@YJn   .%x !i ..                  
+                :vx    .il :%!   :.                                                                                  ;;                        ,.  , u@@@@@@@@@@@@@@@@@@@@@vJ.                        %#.@@@@@X@: .   i,                     r!r,8@@@@@@@@@@@@v                             .Z@@l!, :                               !.;@#@@@.                 uri r l:i@.  ;c  ;                                .Ycn; .n.  xl  ii                                  rl%;    r@clr  J8                                             :x   l@YXY    uJ.:!  .                  
+                ;vl;   .ll .Yc   ::                                                                                 ,!!.      ..              ,   ,,;@@@@@@@@@@@@@@@@@@@@@X..                        i@vi@@@@@@@%x;   !                     ;vJYZ@@@@@@@@@@@@n                               ,@@@ir,                                   ,#@8#c                 xvx,x i,n@.  ;v  ;                                .JYJ! ,u   Yu  !;                                  cX@:   .n@8J: .cu                                             ,l    ZZXX.   !%!;i, :                  
+                ln,!.  ..   X8.   .                                                                                .ri:  ,. :l:                 .  .@@@@@@@@@@@@@@@@@@@@@@.                         ;c@X@@@@@@@@%@,                         nZ@@@@@@@@@@@@@@Y        ,,                       u@@@8i                                     xclYl                !Xv;r !:u#.  lx  ;                                 uZ%c ,u  .%n  x!                                  Y@@;   ,Y@@J   vi                                             :l    X#8%,   ;@cii: .                  
+                lx !X  .  i.c8:                                                                               .   .i.  ::,,xi                      n@@@@@@@@@@@@@@@@@@@@@v                          J@@J@@@@@@@@@%  :.   ;vx;,             .Y@@@@@@@@@@@@@@%       ,:.                    :!. i8@@Xu                              .         .X!               ,ZZxi .iY8   xc;.;                                 xJZX :n  :8c  r;                                  ;@@:   ,v#@i   c.                                             :l    v@#@i   .XJ!:; .                  
+                rl ;Zl .  uiv@!    :                                                                         .    !   i!, ..                   .  !@@@@@@@@@@@@@@@@@@@@@u,                         i#@@%@@@@@@@@@J.  :iZ@#x,         :     u@@@@@@@@@@@@@@8       ..                    ici   ;#@@@@!    .,.           .           .!n:      :r               ,Z#J!  ;#8  .icc,!                                 v8Z8.,r !Y%8 .l,                                  l@J,   :8@Y:  .r                                              ,!    rZ%@i    nXi,i..                  
+                r; :vJ,,  ccY8..li.;.                                                                        ,   .,   ;,            ;,         .u@@@@@@@@@@@@@@@@@@@@@@8..                         ;x@@@@@@@@@@@@8. r%@@x.          .   .!c@@@@@@@@@@@@@@%.     .,:.                  ;vv;   .:Z@@@@Y     .!:.          :            ,ux.     !               ;@#cl. ,@#. .:Y#.,i                                v8%@!;l i%8#..r:                                  J@r,   i@%!.  ;!                                              ,,    rY8#u    !Zu,;.                   
+                n: ixin:.!@#@c.l!iuu,                                                                        ,   ii   ..           ;lu,      rY@@@@@@@@@@@@@@@@cJJ, ;#%..                        !i,%@@@@@@@@@@@@u  ll.              ,!;!x@@@@@@@@@@@@@@@:     .::                  .!i;      l8@@@@@@iicvr!;!;.         !             .l!      ;,,           ;@@Yxi  8%  ..X@:,,                                c%8@nii l@@@::r,                                 .ZXi,  .v@Y,   rr                                              ,,   .iX#%J.   :ZJ,,,                   
+               .l  ir vr..@@@ni.n;..                                                                             i;.   :          ;lx:  ;,:nZ@@@@@@@@@@@@@@@@:  ,  ,vv                           iXv@@@@@@@@@@@@Zx                .:!ui i8@@@@@@@@@@@@@@u    ,;;.                  ;i;:.      ll!@@@@@@Z%@@@Jn,,.   :,    .               ,      v@i          iZ@v:. .Z%,..;Z#v:                                :%%8#nli i@Z@x!l.                                 ;Zu:.  :vXn,   :;                                               .   .xJZ%X,    JX;.:                   
+               :,  lc lZi.v@%   n;                                                                               !:.             ;;.. :vxx8@@@@@@@@@@@@@@@@Z      lcY:                            ;%@@@@@@@@@@@X :         ..   ,nuxu; l@@@@@@@@@@@@@@@l  ;nJx,                  .nn: ,,      ;iX@@@@@@@@@@@@@J!,,    :;,                        X%i          nc@u!, ,c@l  v@Xi                                 iZ@YZXni !@v%Xlr,                                 :ni,.  :nvl,   l,                                                   .ucc@8;    nJi :,                  
+               :.  !u  Yc.v@%, .x!                                                                                ,..           !, . xnuX@@@@@@@@@@@@@@@@@@.    lr;!i                             :@@@@@@@@@@@@i .    ,:vX#%ZX%%8J!:,;Z@@@@@@@@@@@@@@@i :cv;                    ,nu:.         uX@@@@@@@@@@@@@@@@8x!.   .inr                     v@J.          uJ@vl. .u@r  X@Y.                                 lJ%uY%ui !@uJ@ni.                                 ,:: ..  ;rr,   v.                                                   .Y8c8@!    ,cn.nn                  
+              ,:   !x. ,Zix@@! .ux                                                                              ., ,,.    :.    .,l,!xvZ#@@@@@@@@@@@@@@@@@l   .nl lX,                           ,nZ@@@@@@@@@@@@x ,.    .,....;n;   ;Y@@@@@@@@@@@@@@@@n;:,.                    .lr!,          iv@@@@Y;:cc8@@@Yc@@@@@Xx:   :@@r            ,;   l%@@:           xn@Yr. ,l@c  X@r,                                 iv8X%#vi ;@;u@x;,                                 ..: :!. .;ll  :x                                                    .Z8nY@u     ic.un                  
+              ;.   ,r.  cJ;J@v .nu.                                                                              ;.  .;.  .;.   ,r :lc@@@@@@@@%@@@@@@@@@@r    .;  rv                           ..r@@@@@@@@@@@@@r   ::... ,,;ruxnX@@@@@@@@@@@@@@@@@@@u..                     ;vX!             .;@@J.      :n#v. ;Z@@@ZYv,   iZX.          ::;xY#:nX            rv@Jr  ,;@%  YXx,                                 !x#ZY#Jn,l@lx@!,.                                   : ,n;  :lr; rn                                                    ,Z8nYZX,    ,v.xv                  
+              ;    .r,  ,%xn@X .ln:                                                                               ,    ,.  :;     lY%@@@@@@@@@@@@@@@@@@@l     ,i ,n!                           :,J#@@@@@@@@@@@@r     l@;c@@@@@@@@@@@@@@@@@@@@@@@@@@%                      :vZn,            lnrri            lYncJ%@@8!:r     .ul        ,vJZ#Y, x!            ln@Yr  Jv%@ .rrx, .                               ixJYxXcx,u@,!@:.,                                .  , :l,.,xX!:icx                                                    ,YXJXxnv     x.;Y                  
+             ..    .r,   iJn%#..ili                                                                                 .           ;XY@@@@@@@@@@@@@@@@@@@@!      xl ;c;          .     .,         !i8X@@@@@@@@@@@#:,,   :@Z@@@@@@@@@@@@@@@@@@@lv@@@@@@,                    :rxl:          .:,lXr.                .rXX8@Z::lxi.    :i      .X@Jrxxxr!             lv@#x  XZ@@ :;!8r:u                               ;!rx,nx: .X.;@;.:                                   , :!,.xncl.Y%r                                                    :Zlr;  Y!    l.:J.                 
+             :      l:    v8#@,::.r                                                                                  :i;.  .,:nZXv@@@@@@@@@@#@@@@@@@@@i       u;. ii          ...     ;i       rc%#@@@@@@@@@@8l.lr,. :%@@@@@@@@@@@@@@@@@@@Zil@@#@@n                   :nn!.     ,..:ixl;:!vl,                     :xn:   ,%c          .rx::J%cur              lc##l  Y#@@,;, Y@c,                               :,xl.x!; .%!;@; .                                  .: .!,,lxiv vZl                                                    :n:;   !u    : .n.                 
+            ,:      r! ., i@@@li, l.                                                                                  ,lurluY@#!  iv@@@@@Y8%X@@@@@@v@l       .:!,               .      .       YXX@@@@@@@@@@@cxn#Y.   J@@@@@@@@@@@@8@@@@@x:::nu .!           i:     :l;.    :!;;;:,.      .                      .!:      i;,,        ..  .;. ;               lY8Z;  @@@@,i  .@u                                .,ni.u..iY@rl@! .                           .      ,: .r ,rx,uiYYr                                                    ,xl,   .J,      n,                 
+            :.      ui i, :@@@%x. !;                                                                                    ,nx@@i      .J@r    n@@@@@n8n         .n,                .  .         ,u!@@@@@@@@@@@@@xrn     @@@@@@@@@@@@@@@@@%l                    .    !li..:;,;:.                                    ,,          .;   .                           xZ8Y: :@@@8.:  :%;                                 ,nrl.   X@xu@; ,                                   ,.;c .uciuunJr                                                    ,ur.   :#i      i.                 
+              .     xrvZ,  %@@@Y  :!                                                                                     :nu           ,,    X@@@@@X           x.         ,       , .r. .     .;%@@@@@@@@@@@@@i,  ,; !@@@8Y@@@@@@@@%i:  r                   ,.:,       ..                                       ..             ..!J    ...,.                  nXZc, i@@@v:.   X:                                 .uYn ,l!@cxn8; :                           .       ,!vv! vvivv:rx                                                     i..l  i#v      :                  
+               .  ::lXJJ:  n@@@c  ,r                                                                                                          Y@@@@           .l.::                !!;r!!    ,i@@@@@@@@@@@@@@Z.   .  c@!::,!::. ...     .r                 r!            ,  .;                                                   :nnnri:                      n%%n. r@@J:;.   Y:                                  x%;,JY%@Jxxnr.  .                                 .ln;l.iu,Yu lu                                                    :! !x .cXn  .  ri.                 
+                iiXuu@ri.  ;@@@X  .l                                                                                                          :@@@i           :i;.i                .cux,l  .Jr@@@@@@@@@@@@@@@! :i!xv;:                   :;               i;            ..  u:                                                                               .rYY!  J@@x ;   .@,                                 .:uY@@cc@#xxJn  .                                   iu! ::cxXx :X,                                                  .J:.n;.c@ir.    vn,                 
+                i!iu%@ru:   @@@@.  i.                                                                                                         ,i@Z            ,r! :                 .lY:u  Yv@@@@@@@@@@@@@@@@.  :;i.     .,                   .:.  :.                   :  .8.            :r            ,.                                                   ,rXv,  X@@; r.   @:                                 ,.u@@n:X%X, vu:; .i:!l                              ,ux .iunxx:;@%:                                                .cr:lXuv#x.ll.   vu.                 
+                ,:iX@@ZXl   %@@@r  i.                                                                                                           vJ            .xi ..                 .nlv cv8@@@@@@@@@@@@@@@@Yx                       .. .:.i;   .!;rvri!,                 rl             xJ.         ,                                                      ;nJZJ ,J@@. Ycc. @!                              .;;c#@@8rZ@@@x:r@v:,;!xr.                      :.       uu.  li,l;;@Yu!                                               nn.iJ@@@i  lc:   cv.                 
+                 ,u@##xn,   J@@@8!.r,                                                                                                           xx ;.         .!x. ,    .            ,lnvvc8@@@@@@@@@@@@@@@@@@:                     .:;.  :.    .,.  .. ;uci,              il             r,x       .,                                                       ;rixXl!i@@. Y@@:.#.                          ,ixY#@@@@@@@@@@@@Zvc@Xiirrv#Jrr:                 ,,,        ic:   x!.r !J;v,                                             ln. v%@@u   .l.   nY.                 
+                  .vJYxu:   x@@@#@:i:                                                                                                           ,  :x          rJi    .              ,iY@%@@@@@@@@@@@@@@@@@@@.  ,             .:   .                       .:::.                      ,,  ,                                                                   . ,nZn.@8  Z@%!lX                   ,;;::,...  !u8@@Zriluvc@@ZX%@@@XXJcZ%n.            ,;;i;.           .ur   rr rl,nl,l                                           .ru: ;%@@v.,u: .    vx                  
+                   ixcun:   r@@@Y@,,;                                                                                                               v          !!;     .,:;i,      . .v@@@@@@@@@@@@@@@@@@@@v  .,;          .,                                     .                   vl :..                                                                    .x@r @v  Z@#Xrx;                    ,!;:lrxxJ#@@@@ZuxxX@@@@@@@@@@88n::;x,             .                iv   ;c:nZunv,,!                                          ;ll.,J@@u  xc..,   !c.                  
+                    !xxu:   l@%@J@!,n                                                                                                               ,l .       .cn,     .;x%@v,   .  !@@@@@@@@@@@@@@@@@@n!    rl      ,.                                                      .:     ;c!l.   .:,,:                                                            .  J@,!@i .%@@Z                           .!::rJYvvc@@@XYZ@#Z888%%@@Jx;.  .                               u,   Y; vYvx: i:                                       .:,;. xJX#: :Z; ,: .rxn                   
+                     :rx;   ;@:!c%u:@:                                                                                                               :!!        l@v:       .!uYu;:   v@@@@@@@@@@@@Xv@@@i  ;. ;Y:  ..                                            .      .       .!ux!;,  .:!;:.                                                                . .#@;c@; ;%@@x ,.:.                                 .. .         ,!:.  ..                            .i, li   i, ,v8!:  x                                      ., :: icnvr :%X. :..:!vl                   
+                      :r!   :#..JcJl@;                                                                                                                 ,l     .  Z@Zux         ;8r  ;@@@@@@@@@@@@,  .:n,.:r. ;..                                                ,::i.  :, .,,,   .         !                                                                  . l%@Xxu, l%#Ynrcr                                                          ..,,..                     ;vYJv   .!  ,ccru .l                                    ,. .!,ivvuc, .X; .. xr,l.                   
+                      ,u! ln8@@#@iY@@.                                                                                                                  ::    ,  .#@@@%l        , ,c@@@@@@@@@@@@!      .    .                                                      ,i  i!:.                                                                                   .,r8@n :  rvvZX@8                                                                                        l@%!   r   .YYn! i,                                  ,  .nrrnYnxr  ;:  , .Yx!,                    
+                      .vvl,.Y@x8@Y@@@:                                                                                                                   ;,       ,YvZ%@@n;       @@Z@@@@@@@@J,n    .:,    .                                                         .:;.                                                                                     :. Z8  ;  x,.%%nXr                                                  !!                                    ,@@   ,;   .Zci..i                              .,!l!,,xYxrvY!l! lv; ;,.J#l.                     
+                       nl    X,.uJJ%@l                                                                                                                    !!       .nXX@@@@@Xcvl;Y@YX@@@@nv@x.;!,..                                                                                                                                                          .!  X!  ,    .@!  lZZx:.                                           .v@u                                      %Z   :  rric.                    ,irxnrrnr!!!!l,    vX!.n@n ,lnYJxi!.x@u                       
+                       ;:    #@%#@@@@8                                                                                                                     .r       .Xcv%@@@@@@@@@@@@@@Z. :,,..                                                                              ;                                                                               .. .Y.  :   .Zc     :8Jvx!,,;,                                 .!nX@@@.                                       %c  c! !@Z@!     .:,:xi,          !xcXn:          rX:.x88,  ,xl. :;lYv;                       
+                       ,:    ;rxvZcl@@.                                                                                                                      l      . ;YZJ!!vJunX@@Yi;.                                                                                    : ,                                                                                  :i  !v   vZ       nir88ZYJcn:                         :JXvvv8u:X@X                                          @x ,8c:i@X@vr.    .,!v@@@ZYnnxli:,,,,!i!;::i:   lc  xZXu  :l:  .:rZZi:                       
+                       ,.           uX                                                                                                                        i    :   ,YXvil:.,x;                                                                                  .!:                                                                                         !; ;JZ  !@@YirvJY#@@ZYnilriillnvucYnr!lrlrxxuvnuvJZ%#@@Yixi:: :@@!  i                                        #n  Xu!xi.xvJx,       x@@@ul!!li;;;.          l@XiYYlcnir!   :xJ#@Z,                        
+                       .           .nc,                                                                                                                       :::. :x     !r!:.:.                                                                                ,iriri:                                                                                      icc. vlx. Y@@8vrrr:,              .ivx!;!;;!ixXZulllrr:rXnr:;::u@@@@Xr@r                                       .Jr .ulxvi. .lvr!:      iJXu;                n@@@@c:r@%8i   !J%@@%!                         
+                                   ,;                                                                                                                           ix:.,.      .         .                                                                                :                                                                                      x@@c!%Jr ;X:,.,,;,                  .::,..      .,:il,,x%@%x;l%@YJ@@8iJ:                                          ;.:vrln: .:luX#X!       ,l!,...        ,u@@Xlx;  !crn.  x@@@@%i                          
+                                   :                                                                                                                              iunrr,  .         ixi                                                                                                                                                                        8@@@@@XiuJ::,;!irxrlnvJZ%YuvnxvvXZ8XXnirnnnJ%%#8JnruZ%ZcXv, x@l J@@Yv8,                                          .!iJ%X@c .vJr. :ini                 :c@@XJl    .,;..;  u@@@@@v                           
+                                   :                                                                                                                               .!xx:.                                                                                       .                                                                                              c@X@@@@@Zriii:,        ;n:       .;!;nYJvunx!:.        .;  !c, .@Y  Jl                                           .;  !Z@@u  ,xn!             ;!:ixc%@@Z!  ;    ,;.  !rx#@@8crr;                           
+                                   ,                                                                                                                                   .;;::,                                                                                   :                                                                                               !@cY@@@@i  :!ii!::!iii!;::::::       ..     .,:. .,,:i#l ;!   .Y. .r                                              !.  .c@v    :uXJxlllil;:,,u@%@@Yv:    .,  :i    l@@@@@r                                
+                                                                                                                                                                            ....                                                                                 .                                                                                               :@@@%JYZYYX8@@8YvnxnZ#@#@@#@@ZXZX%@@@@@@%ZYX8#@#@@@@x,.ll.   :;  xu                                               :l,  ,cv  ,;lnrnXZ#Zcnx!,xx,xZ@#i..,:v8XZ@@i!c%@@@#X,                                 
+                                                                                                                                                                                                                                                                        ,.                                                                                       icxc%YXX#@@vn          .,:!lruxri!,;lxvcvxi;;:::..;ur,:l.        Y:                                                 .!,  ixi@@u..,      .:xZJcXvJ@@@@J!!!: :88#@@@@8u.                                  
+                                  .                                                                                                                                                                                                                                .    v                                                                                       :xr:iXl  !ur!!               .:;lnuuxrrnYX%@%#@@XcuvXYv,...,,;.  uJ                                                 ..,lu!  !nJ@@Jrrlu8@@@@@v        .,,.   u@@#ci.,i                                    
+                                                                                                                                                                                                                                                                                                                                                                     !. ;c8,                            .,iuXci;,,:;i!:::.      ,nr                                                 n!   .i!  .!XJ   ..,,iY#8cx;.     .ixn8@c;.    .                                     
+                                                                                                                                                                                                                                                                                                                                                                     !:ui,#:                                    .      .,::.                                                         x:     rl,,x%ci!inJvnr8YrvJY%%%%%%@%ni                                              
+                                                                                                                                                                                                                                                                                                                                                                  . ,ui   c                                                                                                           lx.     !;..,;,.     .lZ@@#%8ZXcl,::    ,.                                         
+                                                                                                                                                                                                                                                                                                                                                                    !:   :!                                                                                                             ,lr!:          .:!li:::.     ..   ..,.                                           
+                                                                                                                                                                                                                                                                                                                                                                     .   ::                                                                                                                 ,;!;!!;!irxxr!:.                                                             
+                                                                                                                                                                                                                                                                                                                                                                         :.                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                         !                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                         l..                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                         .!:                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </pre>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header">
+
+      <h2>Projects</h2>
+    </div>
+
+    <div class="project-list">
+
+      <a href="#" class="project-card" target="_blank">
+        <div class="project-thumb placeholder">..<!--here you load the image--> </div>
+        <div class="project-info">
+          <div class="project-name">Coming soon</div>
+          <div class="project-link">Live link &#8599;</div>
+          <!--<p class="project-description">A short description about the project goes here &mdash; what it does, what you built it with, and why it mattered .</p>-->
+        </div>
+      </a>
+      
+
+    </div>
+    <!--
+    <p class="add-project-note">any other notes</p>
+    -->
+  </div>
+</section>
+
+<section id="illustrations">
+  <div class="section-inner">
+    <div class="section-header">
+
+      <h2>Illustrations</h2>
+    </div>
+
+    <div class="illustration-grid" id="illustration-grid">
+
+      <div class="illustration-card" data-artwork-id="artwork-01">
+        <div class="illustration-image"><img src="horse.jpg" alt="Artwork illustration"></div>
+        <div class="illustration-title">Whispers of the Midnight Grove</div>
+        <p class="illustration-description">Acrylic on paper &mdash; 2026.</p>
+        <div class="illustration-meta">
+          <button class="art-chip like-btn" aria-label="Like this artwork" aria-pressed="false">
+            <span class="heart-icon" aria-hidden="true">&#9825;</span>
+            <span class="like-count">0</span>
+          </button>
+          <span class="art-chip views-chip" aria-label="Views">
+            <span aria-hidden="true">&#9671;</span>
+            <span class="views-count">0</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="illustration-card" data-artwork-id="artwork-02">
+        <div class="illustration-image"><img src="night.png" alt="Artwork illustration"></div>
+        <div class="illustration-title">Serenade of the Silent Moon</div>
+        <p class="illustration-description">Acrylic on paper &mdash; 2025.</p>
+        <div class="illustration-meta">
+          <button class="art-chip like-btn" aria-label="Like this artwork" aria-pressed="false">
+            <span class="heart-icon" aria-hidden="true">&#9825;</span>
+            <span class="like-count">0</span>
+          </button>
+          <span class="art-chip views-chip" aria-label="Views">
+            <span aria-hidden="true">&#9671;</span>
+            <span class="views-count">0</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="illustration-card" data-artwork-id="artwork-02">
+        <div class="illustration-image"><img src="nahr.png" alt="Artwork illustration"></div>
+        <div class="illustration-title">The Quiet Bend</div>
+        <p class="illustration-description">Acrylic on paper &mdash; 2025.</p>
+        <div class="illustration-meta">
+          <button class="art-chip like-btn" aria-label="Like this artwork" aria-pressed="false">
+            <span class="heart-icon" aria-hidden="true">&#9825;</span>
+            <span class="like-count">0</span>
+          </button>
+          <span class="art-chip views-chip" aria-label="Views">
+            <span aria-hidden="true">&#9671;</span>
+            <span class="views-count">0</span>
+          </span>
+        </div>
+      </div>
+
+
+      <div class="illustration-card" data-artwork-id="artwork-03">
+        <div class="illustration-image"><img src="malerina.png" alt="Artwork illustration"></div>
+        <div class="illustration-title">Malenia fanart</div>
+        <p class="illustration-description">Ink on paper &mdash; 2025.</p>
+        <div class="illustration-meta">
+          <button class="art-chip like-btn" aria-label="Like this artwork" aria-pressed="false">
+            <span class="heart-icon" aria-hidden="true">&#9825;</span>
+            <span class="like-count">0</span>
+          </button>
+          <span class="art-chip views-chip" aria-label="Views">
+            <span aria-hidden="true">&#9671;</span>
+            <span class="views-count">0</span>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-header">
+
+      <h2>Contact</h2>
+    </div>
+
+    <p class="contact-intro">
+      I’d love to connect with you! Feel free to reach out through any of the platforms below.
+    </p>
+
+    <div class="contact-grid">
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=zebiri.meriem06@gmail.com" class="contact-card">
+        <span class="glyph"><svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><g fill="var(--ink)"><rect x="0" y="0" width="10" height="10"/><rect x="10" y="0" width="10" height="10"/><rect x="20" y="0" width="10" height="10"/><rect x="0" y="10" width="10" height="10"/><rect x="10" y="10" width="10" height="10"/><rect x="20" y="10" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="40" y="10" width="10" height="10"/><rect x="80" y="10" width="10" height="10"/><rect x="90" y="10" width="10" height="10"/><rect x="0" y="20" width="10" height="10"/><rect x="10" y="20" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/></g><g fill="var(--ink-faint)"><rect x="100" y="0" width="10" height="10"/><rect x="110" y="0" width="10" height="10"/><rect x="120" y="0" width="10" height="10"/><rect x="100" y="10" width="10" height="10"/><rect x="110" y="10" width="10" height="10"/><rect x="120" y="10" width="10" height="10"/><rect x="100" y="20" width="10" height="10"/><rect x="110" y="20" width="10" height="10"/><rect x="120" y="20" width="10" height="10"/></g><g fill="var(--ink-dim)"><rect x="30" y="20" width="10" height="10"/><rect x="40" y="20" width="10" height="10"/><rect x="80" y="20" width="10" height="10"/><rect x="90" y="20" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="40" y="30" width="10" height="10"/><rect x="50" y="30" width="10" height="10"/><rect x="60" y="30" width="10" height="10"/><rect x="70" y="30" width="10" height="10"/><rect x="80" y="30" width="10" height="10"/><rect x="90" y="30" width="10" height="10"/><rect x="40" y="40" width="10" height="10"/><rect x="50" y="40" width="10" height="10"/><rect x="60" y="40" width="10" height="10"/><rect x="70" y="40" width="10" height="10"/><rect x="80" y="40" width="10" height="10"/><rect x="40" y="50" width="10" height="10"/><rect x="50" y="50" width="10" height="10"/><rect x="60" y="50" width="10" height="10"/><rect x="70" y="50" width="10" height="10"/><rect x="80" y="50" width="10" height="10"/><rect x="50" y="60" width="10" height="10"/><rect x="60" y="60" width="10" height="10"/><rect x="70" y="60" width="10" height="10"/></g><g fill="var(--accent)"><rect x="0" y="30" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="0" y="40" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="20" y="40" width="10" height="10"/><rect x="0" y="50" width="10" height="10"/><rect x="10" y="50" width="10" height="10"/><rect x="20" y="50" width="10" height="10"/><rect x="0" y="60" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect x="20" y="60" width="10" height="10"/><rect x="0" y="70" width="10" height="10"/><rect x="10" y="70" width="10" height="10"/><rect x="20" y="70" width="10" height="10"/><rect x="0" y="80" width="10" height="10"/><rect x="10" y="80" width="10" height="10"/><rect x="20" y="80" width="10" height="10"/><rect x="0" y="90" width="10" height="10"/><rect x="10" y="90" width="10" height="10"/><rect x="20" y="90" width="10" height="10"/><rect x="0" y="100" width="10" height="10"/><rect x="10" y="100" width="10" height="10"/><rect x="20" y="100" width="10" height="10"/><rect x="0" y="110" width="10" height="10"/><rect x="10" y="110" width="10" height="10"/><rect x="20" y="110" width="10" height="10"/><rect x="0" y="120" width="10" height="10"/><rect x="10" y="120" width="10" height="10"/><rect x="20" y="120" width="10" height="10"/></g><g fill="var(--ink-faint)"><rect x="100" y="30" width="10" height="10"/><rect x="110" y="30" width="10" height="10"/><rect x="120" y="30" width="10" height="10"/><rect x="100" y="40" width="10" height="10"/><rect x="110" y="40" width="10" height="10"/><rect x="120" y="40" width="10" height="10"/><rect x="100" y="50" width="10" height="10"/><rect x="110" y="50" width="10" height="10"/><rect x="120" y="50" width="10" height="10"/><rect x="100" y="60" width="10" height="10"/><rect x="110" y="60" width="10" height="10"/><rect x="120" y="60" width="10" height="10"/><rect x="100" y="70" width="10" height="10"/><rect x="110" y="70" width="10" height="10"/><rect x="120" y="70" width="10" height="10"/><rect x="100" y="80" width="10" height="10"/><rect x="110" y="80" width="10" height="10"/><rect x="120" y="80" width="10" height="10"/><rect x="100" y="90" width="10" height="10"/><rect x="110" y="90" width="10" height="10"/><rect x="120" y="90" width="10" height="10"/><rect x="100" y="100" width="10" height="10"/><rect x="110" y="100" width="10" height="10"/><rect x="120" y="100" width="10" height="10"/><rect x="100" y="110" width="10" height="10"/><rect x="110" y="110" width="10" height="10"/><rect x="120" y="110" width="10" height="10"/><rect x="100" y="120" width="10" height="10"/><rect x="110" y="120" width="10" height="10"/><rect x="120" y="120" width="10" height="10"/></g></svg></span>
+        <span class="contact-label">Gmail</span>
+        <span class="contact-handle">zebiri.meriem06@gmail.com</span>
+      </a>
+
+      <a href="https://linkedin.com/in/meriem-zebiri" target="_blank" class="contact-card">
+        <span class="glyph"><svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><rect x="40" y="0" width="10" height="10"/><rect x="50" y="0" width="10" height="10"/><rect x="60" y="0" width="10" height="10"/><rect x="70" y="0" width="10" height="10"/><rect x="80" y="0" width="10" height="10"/><rect x="90" y="0" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="40" y="10" width="10" height="10"/><rect x="50" y="10" width="10" height="10"/><rect x="60" y="10" width="10" height="10"/><rect x="70" y="10" width="10" height="10"/><rect x="80" y="10" width="10" height="10"/><rect x="90" y="10" width="10" height="10"/><rect x="100" y="10" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="30" y="20" width="10" height="10"/><rect x="40" y="20" width="10" height="10"/><rect x="50" y="20" width="10" height="10"/><rect x="60" y="20" width="10" height="10"/><rect x="70" y="20" width="10" height="10"/><rect x="80" y="20" width="10" height="10"/><rect x="90" y="20" width="10" height="10"/><rect x="100" y="20" width="10" height="10"/><rect x="110" y="20" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="50" y="30" width="10" height="10"/><rect x="60" y="30" width="10" height="10"/><rect x="70" y="30" width="10" height="10"/><rect x="80" y="30" width="10" height="10"/><rect x="90" y="30" width="10" height="10"/><rect x="100" y="30" width="10" height="10"/><rect x="110" y="30" width="10" height="10"/><rect x="120" y="30" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="20" y="40" width="10" height="10"/><rect x="30" y="40" width="10" height="10"/><rect x="40" y="40" width="10" height="10"/><rect x="50" y="40" width="10" height="10"/><rect x="60" y="40" width="10" height="10"/><rect x="70" y="40" width="10" height="10"/><rect x="80" y="40" width="10" height="10"/><rect x="90" y="40" width="10" height="10"/><rect x="100" y="40" width="10" height="10"/><rect x="110" y="40" width="10" height="10"/><rect x="120" y="40" width="10" height="10"/><rect x="10" y="50" width="10" height="10"/><rect x="20" y="50" width="10" height="10"/><rect x="30" y="50" width="10" height="10"/><rect x="50" y="50" width="10" height="10"/><rect x="70" y="50" width="10" height="10"/><rect x="90" y="50" width="10" height="10"/><rect x="100" y="50" width="10" height="10"/><rect x="110" y="50" width="10" height="10"/><rect x="120" y="50" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect x="20" y="60" width="10" height="10"/><rect x="30" y="60" width="10" height="10"/><rect x="50" y="60" width="10" height="10"/><rect x="80" y="60" width="10" height="10"/><rect x="100" y="60" width="10" height="10"/><rect x="110" y="60" width="10" height="10"/><rect x="120" y="60" width="10" height="10"/><rect x="10" y="70" width="10" height="10"/><rect x="20" y="70" width="10" height="10"/><rect x="30" y="70" width="10" height="10"/><rect x="50" y="70" width="10" height="10"/><rect x="80" y="70" width="10" height="10"/><rect x="100" y="70" width="10" height="10"/><rect x="110" y="70" width="10" height="10"/><rect x="120" y="70" width="10" height="10"/><rect x="10" y="80" width="10" height="10"/><rect x="20" y="80" width="10" height="10"/><rect x="30" y="80" width="10" height="10"/><rect x="50" y="80" width="10" height="10"/><rect x="70" y="80" width="10" height="10"/><rect x="80" y="80" width="10" height="10"/><rect x="100" y="80" width="10" height="10"/><rect x="110" y="80" width="10" height="10"/><rect x="120" y="80" width="10" height="10"/><rect x="10" y="90" width="10" height="10"/><rect x="20" y="90" width="10" height="10"/><rect x="30" y="90" width="10" height="10"/><rect x="50" y="90" width="10" height="10"/><rect x="70" y="90" width="10" height="10"/><rect x="80" y="90" width="10" height="10"/><rect x="100" y="90" width="10" height="10"/><rect x="110" y="90" width="10" height="10"/><rect x="120" y="90" width="10" height="10"/><rect x="20" y="100" width="10" height="10"/><rect x="30" y="100" width="10" height="10"/><rect x="40" y="100" width="10" height="10"/><rect x="50" y="100" width="10" height="10"/><rect x="60" y="100" width="10" height="10"/><rect x="70" y="100" width="10" height="10"/><rect x="80" y="100" width="10" height="10"/><rect x="90" y="100" width="10" height="10"/><rect x="100" y="100" width="10" height="10"/><rect x="110" y="100" width="10" height="10"/><rect x="30" y="110" width="10" height="10"/><rect x="40" y="110" width="10" height="10"/><rect x="50" y="110" width="10" height="10"/><rect x="60" y="110" width="10" height="10"/><rect x="70" y="110" width="10" height="10"/><rect x="80" y="110" width="10" height="10"/><rect x="90" y="110" width="10" height="10"/><rect x="100" y="110" width="10" height="10"/><rect x="40" y="120" width="10" height="10"/><rect x="50" y="120" width="10" height="10"/><rect x="60" y="120" width="10" height="10"/><rect x="70" y="120" width="10" height="10"/><rect x="80" y="120" width="10" height="10"/><rect x="90" y="120" width="10" height="10"/></svg></span>
+        <span class="contact-label">LinkedIn</span>
+        <span class="contact-handle">linkedin.com/in/meriem-zebiri</span>
+      </a>
+
+      <a href="https://github.com/zebirimeriem" target="_blank" class="contact-card">
+        <span class="glyph"><svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><rect x="30" y="0" width="10" height="10"/><rect x="40" y="0" width="10" height="10"/><rect x="50" y="0" width="10" height="10"/><rect x="60" y="0" width="10" height="10"/><rect x="70" y="0" width="10" height="10"/><rect x="80" y="0" width="10" height="10"/><rect x="90" y="0" width="10" height="10"/><rect x="20" y="10" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="40" y="10" width="10" height="10"/><rect x="50" y="10" width="10" height="10"/><rect x="60" y="10" width="10" height="10"/><rect x="70" y="10" width="10" height="10"/><rect x="80" y="10" width="10" height="10"/><rect x="90" y="10" width="10" height="10"/><rect x="100" y="10" width="10" height="10"/><rect x="10" y="20" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="30" y="20" width="10" height="10"/><rect x="50" y="20" width="10" height="10"/><rect x="60" y="20" width="10" height="10"/><rect x="70" y="20" width="10" height="10"/><rect x="90" y="20" width="10" height="10"/><rect x="100" y="20" width="10" height="10"/><rect x="110" y="20" width="10" height="10"/><rect x="0" y="30" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="90" y="30" width="10" height="10"/><rect x="100" y="30" width="10" height="10"/><rect x="110" y="30" width="10" height="10"/><rect x="120" y="30" width="10" height="10"/><rect x="0" y="40" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="20" y="40" width="10" height="10"/><rect x="100" y="40" width="10" height="10"/><rect x="110" y="40" width="10" height="10"/><rect x="120" y="40" width="10" height="10"/><rect x="0" y="50" width="10" height="10"/><rect x="10" y="50" width="10" height="10"/><rect x="20" y="50" width="10" height="10"/><rect x="100" y="50" width="10" height="10"/><rect x="110" y="50" width="10" height="10"/><rect x="120" y="50" width="10" height="10"/><rect x="0" y="60" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect x="20" y="60" width="10" height="10"/><rect x="100" y="60" width="10" height="10"/><rect x="110" y="60" width="10" height="10"/><rect x="120" y="60" width="10" height="10"/><rect x="0" y="70" width="10" height="10"/><rect x="10" y="70" width="10" height="10"/><rect x="20" y="70" width="10" height="10"/><rect x="100" y="70" width="10" height="10"/><rect x="110" y="70" width="10" height="10"/><rect x="120" y="70" width="10" height="10"/><rect x="0" y="80" width="10" height="10"/><rect x="10" y="80" width="10" height="10"/><rect x="20" y="80" width="10" height="10"/><rect x="30" y="80" width="10" height="10"/><rect x="90" y="80" width="10" height="10"/><rect x="100" y="80" width="10" height="10"/><rect x="110" y="80" width="10" height="10"/><rect x="120" y="80" width="10" height="10"/><rect x="0" y="90" width="10" height="10"/><rect x="10" y="90" width="10" height="10"/><rect x="30" y="90" width="10" height="10"/><rect x="40" y="90" width="10" height="10"/><rect x="80" y="90" width="10" height="10"/><rect x="90" y="90" width="10" height="10"/><rect x="100" y="90" width="10" height="10"/><rect x="110" y="90" width="10" height="10"/><rect x="120" y="90" width="10" height="10"/><rect x="10" y="100" width="10" height="10"/><rect x="20" y="100" width="10" height="10"/><rect x="80" y="100" width="10" height="10"/><rect x="90" y="100" width="10" height="10"/><rect x="100" y="100" width="10" height="10"/><rect x="110" y="100" width="10" height="10"/><rect x="20" y="110" width="10" height="10"/><rect x="30" y="110" width="10" height="10"/><rect x="40" y="110" width="10" height="10"/><rect x="80" y="110" width="10" height="10"/><rect x="90" y="110" width="10" height="10"/><rect x="100" y="110" width="10" height="10"/><rect x="30" y="120" width="10" height="10"/><rect x="40" y="120" width="10" height="10"/><rect x="80" y="120" width="10" height="10"/><rect x="90" y="120" width="10" height="10"/></svg></span>
+        <span class="contact-label">GitHub</span>
+        <span class="contact-handle">github.com/zebirimeriem</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+
+  function applyTheme(isDark) {
+    root.classList.toggle('dark', isDark);
+    themeIcon.innerHTML = isDark ? '&#9789;' : '&#9728;';
+  }
+
+  
+  let isDark = false;
+  applyTheme(isDark);
+
+  themeToggle.addEventListener('click', () => {
+    isDark = !isDark;
+    applyTheme(isDark);
+  });
+
+  const langToggle = document.getElementById('lang-toggle');
+  langToggle.addEventListener('click', () => {
+    langToggle.textContent = langToggle.textContent === 'EN' ? 'FR' : 'EN';
+  });
+
+  
+  const navCenter = document.getElementById('nav-center');
+  const navPill = document.getElementById('nav-pill');
+  const navLinks = document.querySelectorAll('.nav-center a');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+
+  function movePillTo(link) {
+    if (!link) return;
+    const containerRect = navCenter.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    const x = linkRect.left - containerRect.left;
+    navPill.style.width = linkRect.width + 'px';
+    navPill.style.transform = `translateX(${x}px)`;
+  }
+
+  let suppressScrollSpy = false;
+  let suppressTimer = null;
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.forEach(l => l.classList.toggle('active', l === link));
+      movePillTo(link);
+    
+      suppressScrollSpy = true;
+      window.clearTimeout(suppressTimer);
+      suppressTimer = window.setTimeout(() => { suppressScrollSpy = false; }, 700);
+    });
+  });
+
+  function updateActiveNav() {
+    if (suppressScrollSpy) return;
+    const scrollPos = window.scrollY + window.innerHeight * 0.35;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const nearBottom = window.scrollY >= maxScroll - 4;
+
+    let currentId = sections[0].id;
+
+    
+    if (nearBottom) {
+      currentId = sections[sections.length - 1].id;
+    } else {
+      for (const sec of sections) {
+        if (sec.offsetTop <= scrollPos) {
+          currentId = sec.id;
+        }
+      }
+    }
+
+    let activeLink = null;
+    navLinks.forEach(link => {
+      const isActive = link.dataset.section === currentId;
+      link.classList.toggle('active', isActive);
+      if (isActive) activeLink = link;
+    });
+
+    movePillTo(activeLink);
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('resize', updateActiveNav);
+
+  
+  movePillTo(document.querySelector('.nav-center a.active'));
+  requestAnimationFrame(() => {
+    navCenter.classList.add('pill-ready');
+  });
+  updateActiveNav();
+
+  
+  
+
+  (function ArtworkEngagement() {
+    'use strict';
+
+    
+    const LS_PREFIX = 'portfolio_art_';
+
+    function lsGet(key) {
+      try { return JSON.parse(localStorage.getItem(LS_PREFIX + key)); }
+      catch { return null; }
+    }
+
+    function lsSet(key, value) {
+      try { localStorage.setItem(LS_PREFIX + key, JSON.stringify(value)); }
+      catch { /* storage full or blocked — fail silently */ }
+    }
+
+
+    function getArtworkData(id) {
+      const stored = lsGet(id);
+      return stored || { likes: 0, views: 0, hasLiked: false };
+    }
+
+    
+    function renderCard(card) {
+      const id = card.dataset.artworkId;
+      const data = getArtworkData(id);
+
+      const likeBtn   = card.querySelector('.like-btn');
+      const likeCount = card.querySelector('.like-count');
+      const viewCount = card.querySelector('.views-count');
+
+      
+      likeCount.textContent = formatCount(data.likes);
+      if (data.hasLiked) {
+        likeBtn.classList.add('liked');
+        likeBtn.setAttribute('aria-pressed', 'true');
+        likeBtn.querySelector('.heart-icon').innerHTML = '&#9829;'; 
+      }
+
+      
+      viewCount.textContent = formatCount(data.views);
+    }
+
+    function formatCount(n) {
+      if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+      return String(n);
+    }
+
+    
+    function handleLike(card) {
+      const id   = card.dataset.artworkId;
+      const data = getArtworkData(id);
+
+      if (data.hasLiked) return; 
+
+      data.likes += 1;
+      data.hasLiked = true;
+      lsSet(id, data);
+
+      const likeBtn   = card.querySelector('.like-btn');
+      const likeCount = card.querySelector('.like-count');
+      const heartIcon = likeBtn.querySelector('.heart-icon');
+
+      likeCount.textContent = formatCount(data.likes);
+      likeBtn.classList.add('liked');
+      likeBtn.setAttribute('aria-pressed', 'true');
+      heartIcon.innerHTML = '&#9829;'; 
+
+      
+      likeBtn.classList.remove('pop');
+      
+      void likeBtn.offsetWidth;
+      likeBtn.classList.add('pop');
+      likeBtn.addEventListener('animationend', () => likeBtn.classList.remove('pop'), { once: true });
+    }
+
+    
+    const VIEW_DWELL_MS = 3000;
+    const VIEW_THRESHOLD = 0.6;
+
+    function setupViewObserver(cards) {
+      if (!('IntersectionObserver' in window)) return; 
+
+      const timers = new Map(); 
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const card = entry.target;
+          const id   = card.dataset.artworkId;
+
+          if (entry.isIntersecting && entry.intersectionRatio >= VIEW_THRESHOLD) {
+            
+            if (!timers.has(id)) {
+              const handle = setTimeout(() => {
+                const data = getArtworkData(id);
+                data.views += 1;
+                lsSet(id, data);
+                card.querySelector('.views-count').textContent = formatCount(data.views);
+                timers.delete(id);
+                
+                observer.unobserve(card);
+              }, VIEW_DWELL_MS);
+              timers.set(id, handle);
+            }
+          } else {
+            
+            if (timers.has(id)) {
+              clearTimeout(timers.get(id));
+              timers.delete(id);
+            }
+          }
+        });
+      }, {
+        threshold: [0, VIEW_THRESHOLD],
+      });
+
+      cards.forEach(card => observer.observe(card));
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', function init() {
+      const cards = Array.from(document.querySelectorAll('.illustration-card[data-artwork-id]'));
+      if (!cards.length) return;
+
+      // Render current state for each card
+      cards.forEach(renderCard);
+
+      
+      cards.forEach(card => {
+        const likeBtn = card.querySelector('.like-btn');
+        likeBtn.addEventListener('click', () => handleLike(card));
+      });
+
+      
+      setupViewObserver(cards);
+    });
+
+    
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      const cards = Array.from(document.querySelectorAll('.illustration-card[data-artwork-id]'));
+      if (cards.length) {
+        cards.forEach(renderCard);
+        cards.forEach(card => {
+          card.querySelector('.like-btn').addEventListener('click', () => handleLike(card));
+        });
+        setupViewObserver(cards);
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>
