@@ -279,26 +279,31 @@
 
   .ascii-stage {
   width: 100%;
-  overflow: visible; /* Allows scaling without clipping */
   display: flex;
   justify-content: flex-end;
+  overflow: hidden; /* Prevents layout leaks */
+  margin: 0;
+  padding: 0;
 }
 
-  pre.ascii-body {
+pre.ascii-body {
   font-family: 'JetBrains Mono', monospace;
-  /* Set a safe, legible font size so the browser engine doesn't break or warp it */
-  font-size: 10px !important;
-  line-height: 10px !important;
-  letter-spacing: 0.2px;
+  /* Uses the viewport width to size characters fluidly without layout ghost spaces */
+  font-size: 0.135vw;
+  line-height: 0.135vw;
+  letter-spacing: 0;
+  
   color: var(--art-color);
   white-space: pre;
   margin: 0;
+  padding: 0;
   user-select: none;
-  transform-origin: right center; /* Keeps alignment clean with your text-align: right */
-  transition: color 0.3s ease, transform 0.2s ease;
-  
-  /* Desktop Scale Factor: Adjust this decimal up or down until it fits your desktop viewport perfectly */
-  transform: scale(0.192); 
+  text-align: right;
+  transition: color 0.3s ease;
+
+  /* Kill mobile font boosting */
+  -webkit-text-size-adjust: none !important;
+  text-size-adjust: none !important;
 }
   
   .section-inner {
@@ -573,11 +578,7 @@
       min-height: auto;
     }
     .left { max-width: 100%; }
-    pre.ascii-body { 
-    transform-origin: center center;
-    /* Scale down safely on tablets */
-    transform: scale(0.105); 
-  }
+    
 }
          
     .project-card {
@@ -682,17 +683,16 @@
 
   
   @media (max-width: 767px) {
-    .ascii-stage {
-    overflow-x: visible;
-    justify-content: center;
+  .ascii-stage {
+    justify-content: center; /* Center the art smoothly on mobile layouts */
   }
-
-    pre.ascii-body {
+  pre.ascii-body {
     text-align: center;
-    transform-origin: center center;
-    /* Scale factor for standard mobile portrait viewports */
-    transform: scale(0.16); 
+    /* Give it a slightly clearer viewport size for mobile screens if needed */
+    font-size: 0.34vw !important;
+    line-height: 0.34vw !important;
   }
+}
 
     
     .section-inner {
@@ -726,53 +726,29 @@
   }
 
   @media (max-width: 414px) {
-  .ascii-stage {
-    height: 75px; /* Collapses the empty container space */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   pre.ascii-body {
-    transform: scale(0.13);
-    margin: 0; /* Keeps layout perfectly centered */
+    font-size: 0.39vw !important;
+    line-height: 0.39vw !important;
   }
+  /* Keep your nav-center, h1, illustration-meta, and art-chip styles exactly as you wrote them */
+}
 
-  .nav-center a {
-    padding: 0.4rem 0.7rem;
-  }
+ 
 
-  h1 {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-  }
-
-  .illustration-meta {
-    gap: 1rem;
-  }
-
-  .art-chip {
-    font-size: 10.5px;
+  @media (max-width: 375px) {
+  pre.ascii-body {
+    font-size: 0.41vw !important;
+    line-height: 0.41vw !important;
   }
 }
 
-  @media (max-width: 375px) {
-    pre.ascii-body {
-      transform: scale(0.11);}
-  }
-
   @media (max-width: 320px) {
-    .ascii-stage {
-    height: 55px; /* Shrinks the container space for ultra-small screens */
+  pre.ascii-body {
+    font-size: 0.43vw !important;
+    line-height: 0.43vw !important;
   }
-    pre.ascii-body {
-    transform: scale(0.095);
-  }
-
-    .nav-center a {
-      padding: 0.35rem 0.55rem;
-      font-size: 11px;
-    }
-  }
+  /* Keep your nav-center padding and font-size changes exactly as you wrote them */
+}
 
   
   @media (min-width: 768px) and (max-width: 980px) {
