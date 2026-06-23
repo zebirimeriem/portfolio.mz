@@ -278,26 +278,28 @@
   }
 
   .ascii-stage {
-    width: 100%;
-    overflow: hidden;
-  }
+  width: 100%;
+  overflow: visible; /* Allows scaling without clipping */
+  display: flex;
+  justify-content: flex-end;
+}
 
   pre.ascii-body {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.92px;
-    line-height: 1.92px;
-    letter-spacing: 0.05px;
-    color: var(--art-color);
-    white-space: pre;
-    margin: 0;
-    user-select: none;
-    width: 100%;
-    text-align: right;
-    transition: color 0.3s ease;
-    -webkit-text-size-adjust: none;
-    text-size-adjust: none;
-  }
-
+  font-family: 'JetBrains Mono', monospace;
+  /* Set a safe, legible font size so the browser engine doesn't break or warp it */
+  font-size: 10px !important;
+  line-height: 10px !important;
+  letter-spacing: 0.2px;
+  color: var(--art-color);
+  white-space: pre;
+  margin: 0;
+  user-select: none;
+  transform-origin: right center; /* Keeps alignment clean with your text-align: right */
+  transition: color 0.3s ease, transform 0.2s ease;
+  
+  /* Desktop Scale Factor: Adjust this decimal up or down until it fits your desktop viewport perfectly */
+  transform: scale(0.192); 
+}
   
   .section-inner {
     max-width: 1200px;
@@ -571,7 +573,12 @@
       min-height: auto;
     }
     .left { max-width: 100%; }
-    pre.ascii-body { font-size: 1.05px; line-height: 1.05px; }
+    pre.ascii-body { 
+    transform-origin: center center;
+    /* Scale down safely on tablets */
+    transform: scale(0.105); 
+  }
+}
          
     .project-card {
       flex-direction: column;
@@ -676,17 +683,16 @@
   
   @media (max-width: 767px) {
     .ascii-stage {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+    overflow-x: visible;
+    justify-content: center;
+  }
 
     pre.ascii-body {
-      
-      font-size: 1.6px;
-      line-height: 1.6px;
-      text-align: left;
-      min-width: max-content;
-    }
+    text-align: center;
+    transform-origin: center center;
+    /* Scale factor for standard mobile portrait viewports */
+    transform: scale(0.16); 
+  }
 
     
     .section-inner {
@@ -721,10 +727,8 @@
 
   @media (max-width: 414px) {
     pre.ascii-body {
-      font-size: 1.3px;
-      line-height: 1.3px;
-    }
-
+    transform: scale(0.13);
+  }
     .nav-center a {
       padding: 0.4rem 0.7rem;
     }
@@ -744,16 +748,13 @@
 
   @media (max-width: 375px) {
     pre.ascii-body {
-      font-size: 1.1px;
-      line-height: 1.1px;
-    }
+      transform: scale(0.11);}
   }
 
   @media (max-width: 320px) {
     pre.ascii-body {
-      font-size: 0.95px;
-      line-height: 0.95px;
-    }
+    transform: scale(0.095);
+  }
 
     .nav-center a {
       padding: 0.35rem 0.55rem;
