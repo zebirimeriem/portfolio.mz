@@ -726,25 +726,34 @@
   }
 
   @media (max-width: 414px) {
-    pre.ascii-body {
+  .ascii-stage {
+    height: 75px; /* Collapses the empty container space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  pre.ascii-body {
     transform: scale(0.13);
+    margin: 0; /* Keeps layout perfectly centered */
   }
-    .nav-center a {
-      padding: 0.4rem 0.7rem;
-    }
 
-    h1 {
-      font-size: clamp(1.6rem, 6vw, 2.2rem);
-    }
-
-    .illustration-meta {
-      gap: 1rem;
-    }
-
-    .art-chip {
-      font-size: 10.5px;
-    }
+  .nav-center a {
+    padding: 0.4rem 0.7rem;
   }
+
+  h1 {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+
+  .illustration-meta {
+    gap: 1rem;
+  }
+
+  .art-chip {
+    font-size: 10.5px;
+  }
+}
 
   @media (max-width: 375px) {
     pre.ascii-body {
@@ -752,6 +761,9 @@
   }
 
   @media (max-width: 320px) {
+    .ascii-stage {
+    height: 55px; /* Shrinks the container space for ultra-small screens */
+  }
     pre.ascii-body {
     transform: scale(0.095);
   }
